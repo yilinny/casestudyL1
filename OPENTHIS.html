@@ -1,0 +1,3126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yilin's L1 CRD — Mr N's Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fdf8f0;
+            --surface: #fff9f0;
+            --surface-2: #f5ede0;
+            --primary: #c27c0a;
+            --primary-dim: rgba(194,124,10,0.10);
+            --primary-glow: rgba(194,124,10,0.28);
+            --terracotta: #c4440e;
+            --terracotta-dim: rgba(196,68,14,0.10);
+            --gold: #b8860b;
+            --sage: #1a7a4a;
+            --sage-dim: rgba(26,122,74,0.10);
+            --text: #2c1a08;
+            --muted: #7a5c38;
+            --border: rgba(194,124,10,0.18);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans',sans-serif;
+            font-weight: 500;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .sc {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y proximity;
+        }
+
+        section {
+            min-height: 100vh;
+            scroll-snap-align: start;
+            padding: 56px 72px 56px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* TYPOGRAPHY */
+        .eyebrow {
+            font-family: 'Space Mono',monospace;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .heading {
+            font-family: 'Playfair Display',serif;
+            font-size: clamp(30px,3.8vw,44px);
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 32px;
+        }
+
+        .subhead {
+            font-family: 'Space Mono',monospace;
+            font-size: 28px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin: 20px 0 8px;
+        }
+
+        .body-text {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.85;
+            color: var(--text);
+        }
+
+        /* REVEAL */
+        .rv-up {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
+        .rv-fade {
+            opacity: 0;
+        }
+
+        .rv-left {
+            opacity: 0;
+            transform: translateX(-24px);
+        }
+
+        .rv-right {
+            opacity: 0;
+            transform: translateX(24px);
+        }
+
+        .rv-up, .rv-fade, .rv-left, .rv-right {
+            transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .rv-fade {
+            transition: opacity 0.7s ease;
+        }
+
+        .shown {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        /* CARDS */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 26px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 12px rgba(44,26,8,0.06);
+            transition: border-color 0.2s,transform 0.2s,box-shadow 0.2s;
+        }
+
+            .card:hover {
+                border-color: var(--primary);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 28px rgba(194,124,10,0.12);
+            }
+
+            .card h3 {
+                font-family: 'Space Mono',monospace;
+                font-size: 13px;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--primary);
+            }
+
+            .card p {
+                font-size: 20px;
+                font-weight: 300;
+                line-height: 1.85;
+                color: var(--text);
+            }
+
+        /* TAGS */
+
+        /* HERO */
+        #s-hero {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 45%,#fff8ec 0%,#fdf8f0 100%);
+        }
+
+        #hcanvas {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hglow {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: radial-gradient(ellipse 50% 40% at 50% 55%,rgba(194,124,10,0.06),transparent 70%);
+        }
+
+        .hinner {
+            position: relative;
+            z-index: 2;
+            max-width: 820px;
+            padding: 24px 32px;
+        }
+
+        .h-eyebrow {
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 28px;
+            min-height: 1.2em;
+        }
+
+        .h-title {
+            font-family: 'Playfair Display',serif;
+            font-size: clamp(36px,5vw,60px);
+            line-height: 1.12;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+            .h-title .w {
+                display: inline-block;
+                opacity: 0;
+                transform: translateY(22px);
+                margin-right: 0.22em;
+                transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1),transform 0.5s cubic-bezier(0.16,1,0.3,1);
+            }
+
+        .h-crn {
+            font-family: 'Space Mono',monospace;
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            margin-bottom: 28px;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .h-subtitle {
+            font-size: 22px;
+            font-weight: 300;
+            line-height: 1.65;
+            color: var(--muted);
+            opacity: 0;
+            margin-bottom: 36px;
+            transition: opacity 0.7s ease;
+        }
+
+        .h-pills {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .h-pill {
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 7px 18px;
+            border: 1px solid rgba(194,124,10,0.3);
+            border-radius: 100px;
+            color: var(--primary);
+            background: rgba(255,255,255,0.7);
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.4s ease,transform 0.4s ease;
+        }
+
+        .h-arc-wrap {
+            position: relative;
+            height: 48px;
+            width: 340px;
+            margin: 0 auto 8px;
+        }
+
+            .h-arc-wrap svg {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                overflow: visible;
+            }
+
+        .h-arc {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 1.5;
+            opacity: 0.4;
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            transition: stroke-dashoffset 1.2s ease;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            animation: bounce 2.2s ease-in-out infinite;
+        }
+
+            .scroll-hint span {
+                font-family: 'Space Mono',monospace;
+                font-size: 9px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--muted);
+            }
+
+        @keyframes bounce {
+            0%,100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        /* PROFILE */
+        #s-profile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 0;
+            gap: 0;
+        }
+
+        .prof-left {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 56px 40px 56px;
+            background: radial-gradient(ellipse 55% 65% at 50% 40%,rgba(255,248,230,1) 0%,rgba(253,248,240,1) 100%);
+        }
+
+            .prof-left .eyebrow {
+                position: absolute;
+                top: 56px;
+                left: 40px;
+            }
+
+        .fig-wrap {
+            position: relative;
+            width: 70%;
+            max-height: calc(100vh - 180px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .fig-wrap img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+                filter: drop-shadow(0 8px 24px rgba(44,26,8,0.12));
+            }
+
+        .node {
+            position: absolute;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .ndot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--primary);
+            flex-shrink: 0;
+            animation: npulse 2.1s ease-in-out infinite;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(194,124,10,0.3);
+        }
+
+        @keyframes npulse {
+            0%,100% {
+                box-shadow: 0 2px 6px rgba(194,124,10,0.3),0 0 0 0 rgba(194,124,10,0.4);
+            }
+
+            60% {
+                box-shadow: 0 2px 6px rgba(194,124,10,0.3),0 0 0 7px rgba(194,124,10,0);
+            }
+        }
+
+        .node:hover .ndot {
+            background: var(--terracotta);
+        }
+
+        .nlbl {
+            font-family: 'Space Mono',monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text);
+            background: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(44,26,8,0.12);
+            border: 1px solid var(--border);
+        }
+
+        .dpanel {
+            position: relative;
+            overflow-y: auto;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            padding: 56px 48px 48px;
+            transform: translateX(100%);
+            transition: transform 0.42s cubic-bezier(0.16,1,0.3,1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: -4px 0 24px rgba(44,26,8,0.08);
+        }
+
+            .dpanel.open {
+                transform: translateX(0);
+            }
+
+        .dtopbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--terracotta);
+        }
+
+        .dclose {
+            position: absolute;
+            top: 82px;
+            right: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--terracotta);
+            font-size: 22px;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+            .dclose:hover {
+                color: var(--text);
+            }
+
+        .dicon {
+            color: var(--primary);
+        }
+
+        .dtitle {
+            font-family: 'Playfair Display',serif;
+            font-size: 28px;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .dbody {
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 1.85;
+            color: var(--text);
+            flex: 1;
+        }
+
+        /* PROFILE LIST (use divs instead of ul/li for renderers that strip list tags) */
+        .dlist {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ditem {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .ditem::before {
+            content: "\2022"; /* bullet */
+            color: var(--primary);
+            font-weight: 700;
+            width: 18px;
+            flex-shrink: 0;
+            display: inline-block;
+            text-align: left;
+        }
+
+
+        .phint {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            opacity: 0.4;
+            white-space: nowrap;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding-left: 36px;
+        }
+
+            .timeline::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 8px;
+                bottom: 8px;
+                width: 2px;
+                background: var(--primary);
+            }
+
+        .tph {
+            position: relative;
+            padding: 0 0 24px 28px;
+        }
+
+            .tph:last-child {
+                padding-bottom: 0;
+            }
+
+        .tdot {
+            position: absolute;
+            left: -5px;
+            top: 7px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 6px rgba(194,124,10,0.5);
+            border: 2px solid var(--bg);
+        }
+
+        .tph.setback .tdot {
+            background: var(--terracotta);
+            box-shadow: 0 0 6px rgba(196,68,14,0.5);
+        }
+
+        .tph.setback::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 7px;
+            bottom: -18px;
+            width: 2px;
+            background: var(--terracotta);
+        }
+
+        .tbadge {
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .tph.setback .tbadge {
+            color: var(--terracotta);
+        }
+
+        .ttitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .tdesc {
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--text);
+        }
+
+        .tfim {
+            display: inline-block;
+            margin-top: 6px;
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            color: var(--primary);
+            background: var(--primary-dim);
+            padding: 3px 10px;
+            border-radius: 100px;
+            border: 1px solid rgba(194,124,10,0.2);
+        }
+
+        .tquote {
+            border-left: 3px solid var(--terracotta);
+            background: var(--terracotta-dim);
+            border-radius: 0 10px 10px 0;
+            padding: 16px 22px;
+            font-family: 'Playfair Display',serif;
+            font-style: italic;
+            font-size: clamp(18px,2vw,22px);
+            line-height: 1.62;
+            color: var(--text);
+            margin-top: 20px;
+        }
+
+        /* GOALS / GAS */
+        .goal-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: start;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            box-shadow: 0 2px 8px rgba(44,26,8,0.05);
+        }
+
+        .goal-text {
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .goal-text strong {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .gas-badge {
+            font-family: 'Space Mono',monospace;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            white-space: nowrap;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+
+        .gas-pos2 {
+            background: rgba(26,122,74,0.12);
+            color: #1a7a4a;
+            border: 1px solid rgba(26,122,74,0.25);
+        }
+
+        .gas-pos1 {
+            background: rgba(194,124,10,0.12);
+            color: var(--primary);
+            border: 1px solid rgba(194,124,10,0.25);
+        }
+
+        .gas-neg2 {
+            background: rgba(196,68,14,0.10);
+            color: var(--terracotta);
+            border: 1px solid rgba(196,68,14,0.25);
+        }
+
+        .gas-prog {
+            background: rgba(122,92,56,0.10);
+            color: var(--muted);
+            border: 1px solid rgba(122,92,56,0.2);
+        }
+
+        /* ── OTIPM MODEL SECTION ──────────────────────────────────────────── */
+        #s-model {
+            display: flex;
+            flex-direction: column;
+            padding: 56px 72px 48px;
+            background: radial-gradient(ellipse 65% 65% at 50% 45%,rgba(255,248,230,1) 0%,rgba(253,248,240,1) 100%);
+            overflow: hidden;
+        }
+
+        .model-gallery {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            gap: 14px;
+        }
+
+        .gallery-viewport {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            min-height: 340px;
+        }
+
+        .gallery-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-slide.s-tmo {
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .gallery-slide.s-content {
+            padding: 12px 0;
+            gap: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+            height: 500px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .gallery-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-shrink: 0;
+            padding-bottom: 4px;
+        }
+
+        .gallery-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: background 0.2s,border-color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .gallery-btn:hover:not(:disabled) {
+            background: var(--primary-dim);
+            border-color: var(--primary);
+        }
+
+        .gallery-btn:disabled {
+            opacity: 0.25;
+            cursor: default;
+        }
+
+        .gallery-dots {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .gallery-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s,transform 0.2s;
+            padding: 0;
+        }
+
+        .gallery-dot.active {
+            background: var(--primary);
+            transform: scale(1.4);
+        }
+
+        .gallery-counter {
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .cyc-center {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%,-50%);
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 0 0 10px rgba(194,124,10,0.1),0 4px 20px rgba(194,124,10,0.28);
+            z-index: 3;
+            animation: npulse 2.4s ease-in-out infinite;
+            padding: 8px;
+        }
+
+        .cyc-center span {
+            font-family: 'Space Mono',monospace;
+            font-size: 8px;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: white;
+            line-height: 1.5;
+        }
+
+        /* Slide 4 fill variant */
+        .gallery-slide.s-fill {
+            justify-content: flex-start;
+            padding-top: 16px;
+        }
+
+        .gallery-slide.s-fill .for-grid {
+            flex: 1;
+            align-self: stretch;
+            grid-auto-rows: 1fr;
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .gallery-slide.s-fill .for-card {
+            padding: 26px 22px;
+            gap: 10px;
+        }
+
+        .gallery-slide.s-fill .for-title {
+            font-size: 15px;
+        }
+
+        .gallery-slide.s-fill .for-body {
+            font-size: 20px;
+            line-height: 1.75;
+        }
+
+        .tmo-wrap {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            flex-shrink: 0;
+        }
+
+        .tmo-orbit-ring {
+            position: absolute;
+            top: 5%; left: 5%; right: 5%; bottom: 5%;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(194,124,10,0.32);
+            animation: ring-spin 28s linear infinite;
+        }
+
+        .tmo-ctx-label {
+            position: absolute;
+            font-family: 'Space Mono',monospace;
+            font-size: 11px;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(194,124,10,0.22);
+            white-space: nowrap;
+            z-index: 2;
+        }
+
+        .tmo-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tmo-node {
+            position: absolute;
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 5px;
+            box-shadow: 0 4px 16px rgba(44,26,8,0.09);
+            padding: 8px;
+            transform: translate(-50%,-50%);
+            z-index: 2;
+        }
+
+        .tmo-node-label {
+            font-family: 'Space Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .tmo-center {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%,-50%);
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 10px rgba(194,124,10,0.1),0 4px 20px rgba(194,124,10,0.28);
+            z-index: 3;
+            animation: npulse 2.4s ease-in-out infinite;
+        }
+
+        .tmo-caption {
+            max-width: 440px;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .model-panel {
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            padding: 56px 36px 48px;
+            min-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            box-shadow: -4px 0 24px rgba(44,26,8,0.08);
+        }
+
+        .model-topbar {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--primary);
+        }
+
+        .tmo-td-intro {
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .td-flow { display: flex; flex-direction: column; gap: 0; }
+
+        .td-step { display: flex; align-items: flex-start; gap: 12px; }
+
+        .td-step-dot {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: var(--primary-dim);
+            border: 1.5px solid rgba(194,124,10,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono',monospace;
+            font-size: 11px;
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .td-step-text {
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 1.65;
+            color: var(--text);
+            padding: 5px 0;
+        }
+
+        .td-connector {
+            width: 1px; height: 14px;
+            background: rgba(194,124,10,0.28);
+            margin-left: 14px;
+        }
+
+        .cyc-row { display: flex; align-items: stretch; gap: 6px; }
+
+        .cyc-stage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 16px 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            gap: 6px;
+        }
+
+            .cyc-stage.cyc-main {
+                background: var(--primary-dim);
+                border-color: rgba(194,124,10,0.3);
+            }
+
+        .cyc-arrow-col {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            opacity: 0.45;
+            font-size: 15px;
+        }
+
+        .cyc-lbl {
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .cyc-title { font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.3; }
+
+        .cyc-back {
+            font-family: 'Space Mono',monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 6px;
+            opacity: 0.65;
+        }
+
+        .for-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .for-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .for-title {
+            font-family: 'Space Mono',monospace;
+            font-size: 14px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .for-body { font-size: 20px; font-weight: 300; line-height: 1.65; color: var(--text); }
+
+        /* HORIZONTAL TIMELINE */
+        #s-tl {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .htl-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .htl-track {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 72px 48px;
+            flex-shrink: 0;
+        }
+
+        .htl-line {
+            position: absolute;
+            left: 72px; right: 72px;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(to right,rgba(194,124,10,0.15),var(--primary) 15%,var(--primary) 85%,rgba(194,124,10,0.15));
+        }
+
+        .htl-point {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .htl-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 2.5px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(194,124,10,0.18);
+            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1),background 0.2s,box-shadow 0.2s;
+        }
+
+        .htl-point.setback .htl-dot {
+            border-color: var(--terracotta);
+        }
+
+        .htl-point:hover .htl-dot,
+        .htl-point.active .htl-dot {
+            background: var(--primary);
+            transform: scale(1.55);
+            box-shadow: 0 0 0 5px rgba(194,124,10,0.14),0 4px 14px rgba(194,124,10,0.32);
+        }
+
+        .htl-point.setback:hover .htl-dot,
+        .htl-point.setback.active .htl-dot {
+            background: var(--terracotta);
+            box-shadow: 0 0 0 5px rgba(196,68,14,0.14),0 4px 14px rgba(196,68,14,0.32);
+        }
+
+        .htl-date {
+            position: absolute;
+            bottom: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono',monospace;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+            text-align: center;
+            line-height: 1.5;
+            transition: color 0.2s;
+        }
+
+        .htl-label {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text);
+            white-space: nowrap;
+            text-align: center;
+            line-height: 1.35;
+            transition: color 0.2s;
+        }
+
+        .htl-point.setback .htl-label {
+            color: var(--terracotta);
+        }
+
+        .htl-point.active .htl-date { color: var(--primary); }
+        .htl-point.setback.active .htl-date { color: var(--terracotta); }
+        .htl-point.active .htl-label { font-weight: 600; }
+
+        .htl-detail {
+            flex: 1;
+            padding: 0 72px 32px;
+            min-height: 0;
+        }
+
+        .htl-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 14px 14px 0;
+            padding: 28px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 4px 24px rgba(44,26,8,0.08);
+            height: 100%;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.38s cubic-bezier(0.16,1,0.3,1),transform 0.38s cubic-bezier(0.16,1,0.3,1);
+            pointer-events: none;
+        }
+
+        .htl-card.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .htl-card.setback {
+            border-left-color: var(--terracotta);
+        }
+
+        .htl-card-date {
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .htl-card-title {
+            font-family: 'Playfair Display',serif;
+            font-size: clamp(22px,2.5vw,30px);
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .htl-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .htl-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(194,124,10,0.06);
+        }
+
+        .htl-row:last-child { border-bottom: none; }
+
+        .htl-row-icon {
+            flex-shrink: 0;
+            color: var(--primary);
+            margin-top: 1px;
+        }
+
+        .htl-card.setback .htl-row-icon { color: var(--terracotta); }
+
+        .htl-row-text {
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        /* ── PROBLEM STATEMENT / FLIP CARDS ──────────────────────────────── */
+        .prob-grid { flex: 1; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; min-height: 0; margin: 20px 0 16px; }
+        .prob-card { background: var(--surface); border-left: 4px solid var(--primary); border-radius: 0 14px 14px 0; padding: 20px 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 2px 12px rgba(44,26,8,0.05); }
+        .prob-card-head { display: flex; align-items: center; gap: 10px; }
+        .prob-card-icon { color: var(--primary); flex-shrink: 0; }
+        .prob-card-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--text); flex: 1; }
+        .prob-section-label { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+        .prob-flip { perspective: 1200px; height: 100%; }
+        .prob-flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.16,1,0.3,1); cursor: pointer; }
+        .prob-flip-inner.flipped { transform: rotateY(180deg); }
+        .prob-flip-front, .prob-flip-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 14px 14px 0; overflow: hidden; }
+        .prob-flip-front { background: var(--surface-2); display: flex; align-items: stretch; }
+        .prob-flip-front img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        .prob-flip-front-placeholder { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--muted); opacity: 0.35; font-family: 'Space Mono',monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+        .prob-flip-back { transform: rotateY(180deg); overflow-y: auto; cursor: default; }
+        .prob-flip-hint { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); font-family: 'Space Mono',monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: white; background: rgba(44,26,8,0.48); padding: 5px 16px; border-radius: 100px; white-space: nowrap; pointer-events: none; }
+        .prob-flip-close { position: absolute; top: 14px; right: 14px; background: none; border: none; cursor: pointer; color: var(--terracotta); font-size: 20px; padding: 2px; line-height: 1; z-index: 10; transition: color 0.2s; }
+        .prob-flip-close:hover { color: var(--text); }
+
+        /* RING CYCLE */
+        #s-spiral {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            background: radial-gradient(ellipse 60% 60% at 40% 50%,rgba(255,248,230,1) 0%,rgba(253,248,240,1) 100%);
+            overflow-y: auto;
+            gap: 0;
+        }
+
+        /* Column that stacks ring units top to bottom */
+        .rings-row {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 64px;
+            padding: 56px 72px 72px;
+        }
+
+        /* One self-contained ring + card unit — ring left, card right */
+        .ring-unit {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: auto 1fr;
+            column-gap: 48px;
+            row-gap: 10px;
+            align-items: start;
+        }
+
+        .ring-unit-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: left;
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .ring-unit .ring-wrap {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .ring-unit .ring-card {
+            grid-column: 2;
+            grid-row: 1 / 3;
+            max-width: none;
+            align-self: center;
+        }
+
+        .ring-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1 / 1;
+            flex-shrink: 0;
+        }
+
+        .ring-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .ring-arc-bg {
+            fill: none;
+            stroke: rgba(194,124,10,0.15);
+            stroke-width: 2;
+        }
+
+        .ring-arc-anim {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-dasharray: 1130;
+            stroke-dashoffset: 1130;
+            transition: stroke-dashoffset 1.8s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* rotating dotted ring overlay */
+        .ring-overlay {
+            /* SVG group; use SVG transform-box / origin so rotation pivots correctly */
+            transform-box: fill-box;
+            transform-origin: 50% 50%;
+            pointer-events: none;
+            animation: ring-spin 20s linear infinite; /* slower rotation */
+        }
+
+        .ring-overlay .ring-dots {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 1.2; /* thinner line */
+            stroke-linecap: round;
+            stroke-dasharray: 3 9; /* slightly more spaced dots */
+            opacity: 0.24; /* more transparent */
+        }
+
+        @keyframes ring-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .rnode {
+            position: absolute;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(44,26,8,0.09);
+            transition: border-color 0.25s,transform 0.25s,box-shadow 0.25s;
+        }
+
+            .rnode:hover, .rnode.active {
+                border-color: var(--primary);
+                box-shadow: 0 6px 24px rgba(194,124,10,0.16);
+            }
+
+            /* active state keeps centering translate and scales up */
+            .rnode.active {
+                transform: translate(-50%, -50%) scale(1.08);
+            }
+
+            .rnode svg {
+                color: var(--primary);
+            }
+
+        .rnl {
+            font-family: 'Space Mono',monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* JS-driven placement: start nodes centred and let script place them on the circle */
+        .rnode {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Animate rnode entrance without removing centering translate.
+           Use more-specific selectors so the general .rv-up/.shown rules
+           that set transform:none do not break centering. */
+        .rnode.rv-up {
+            opacity: 0;
+            transform: translate(-50%, -36%) scale(1);
+            transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .rnode.rv-up.shown {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .ring-card {
+            width: 100%;
+            position: relative;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 6px 28px rgba(44,26,8,0.09);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.38s ease,transform 0.38s ease;
+        }
+
+            .ring-card.open {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+        .ring-card-close {
+            display: none;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--muted);
+            padding: 4px;
+            line-height: 1;
+            opacity: 0.5;
+            transition: opacity 0.2s, color 0.2s;
+        }
+
+            .ring-card-close:hover {
+                opacity: 1;
+                color: var(--terracotta);
+            }
+
+            .ring-card.open .ring-card-close {
+                display: block;
+            }
+
+        .ring-card-ph {
+            font-family: 'Space Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            opacity: 0.42;
+            text-align: center;
+            padding: 20px 12px;
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            line-height: 1.8;
+        }
+
+        .rc-title {
+            font-family: 'Playfair Display',serif;
+            font-size: 24px;
+            color: var(--text);
+        }
+
+        .rc-body {
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--text);
+        }
+
+        .rc-carousel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .rc-carousel-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .rc-carousel-counter {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+        }
+
+        .rc-carousel-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 14px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .rc-carousel-list li {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.65;
+        }
+
+        .rc-carousel-list li::before {
+            content: "–";
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .rc-carousel-nav {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .rc-prev, .rc-next {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 14px;
+            cursor: pointer;
+            font-size: 15px;
+            color: var(--text);
+            transition: border-color 0.2s, color 0.2s;
+            line-height: 1.4;
+        }
+
+        .rc-prev:hover, .rc-next:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+
+        /* OUTCOMES */
+        #s-out {
+            gap: 14px;
+        }
+
+        .og2 {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 14px;
+        }
+
+        .og-bot {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .mcard {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 2px 12px rgba(44,26,8,0.06);
+            transition: border-color 0.2s,transform 0.2s,box-shadow 0.2s;
+        }
+
+            .mcard:hover {
+                border-color: var(--primary);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 28px rgba(194,124,10,0.10);
+            }
+
+        .mlbl {
+            font-family: 'Space Mono',monospace;
+            font-size: 15px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .mval {
+            font-family: 'Space Mono',monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .msub {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--muted);
+        }
+
+        .mbar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .mbar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: var(--primary);
+            width: 0%;
+            transition: width 1.6s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .spill {
+            display: inline-block;
+            font-family: 'Space Mono',monospace;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 100px;
+        }
+
+        .s-sage {
+            background: var(--sage-dim);
+            color: var(--sage);
+            border: 1px solid rgba(26,122,74,0.25);
+        }
+
+        .s-gold {
+            background: rgba(184,134,11,0.10);
+            color: var(--gold);
+            border: 1px solid rgba(184,134,11,0.25);
+        }
+
+        .s-amb {
+            background: var(--primary-dim);
+            color: var(--primary);
+            border: 1px solid rgba(194,124,10,0.25);
+        }
+
+        .fim-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+            .fim-table th {
+                font-family: 'Space Mono',monospace;
+                font-size: 9px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--muted);
+                padding: 6px 10px;
+                text-align: left;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .fim-table td {
+                padding: 6px 10px;
+                font-weight: 300;
+                color: var(--text);
+                border-bottom: 1px solid rgba(194,124,10,0.06);
+            }
+
+            .fim-table tr:last-child td {
+                font-weight: 700;
+                font-family: 'Space Mono',monospace;
+                color: var(--primary);
+                border-top: 1px solid var(--border);
+                border-bottom: none;
+            }
+
+        .radar-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(44,26,8,0.06);
+        }
+
+        .rtitle {
+            font-family: 'Space Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        #rsvg {
+            width: 100%;
+            flex: 1;
+        }
+
+        .rleg {
+            display: flex;
+            gap: 16px;
+            margin-top: 4px;
+        }
+
+        .rli {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rld {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .rlt {
+            font-family: 'Space Mono',monospace;
+            font-size: 9px;
+            color: var(--muted);
+        }
+
+        .cquote-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 16px;
+            box-shadow: 0 2px 12px rgba(44,26,8,0.06);
+        }
+
+        .cquote {
+            border-left: 3px solid var(--terracotta);
+            background: var(--terracotta-dim);
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            font-family: 'Playfair Display',serif;
+            font-style: italic;
+            font-size: clamp(18px,2vw,22px);
+            line-height: 1.65;
+            color: var(--text);
+        }
+
+        .cattr {
+            font-family: 'Space Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* EVIDENCE */
+
+        /* ── REFLECT MASK CARDS ──────────────────────────────────────────── */
+        .reflect-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            flex: 1;
+            min-height: 0;
+            align-items: start;
+        }
+
+        .rfl-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            aspect-ratio: 3 / 4;
+            box-shadow: 0 2px 12px rgba(44,26,8,0.06);
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .rfl-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 28px rgba(194,124,10,0.12);
+        }
+
+        .rfl-front {
+            position: absolute;
+            inset: 0;
+        }
+
+        .rfl-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .rfl-front-placeholder {
+            width: 100%;
+            height: 100%;
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            opacity: 0.25;
+        }
+
+        .rfl-mask {
+            position: absolute;
+            inset: 0;
+            background: rgba(253,248,240,0.78);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 28px 20px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .rfl-card.masked .rfl-mask {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .rfl-mask-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(16px, 1.8vw, 22px);
+            font-style: italic;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        .rfl-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .rfl-kw {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: rgba(194,124,10,0.08);
+            border: 1px solid rgba(194,124,10,0.2);
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+
+        .rfl-dismiss {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        /* REFERENCES */
+        #s-ref {
+            gap: 20px;
+        }
+
+        .ref-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .ref-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 10px 10px 0;
+            padding: 14px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: 0 2px 8px rgba(44,26,8,0.05);
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .ref-item:hover {
+            border-left-color: var(--terracotta);
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(194,124,10,0.10);
+        }
+
+        .ref-cite {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .ref-full {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.65;
+            color: var(--text);
+        }
+
+        .ref-cols {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            overflow-y: auto;
+            min-height: 0;
+            align-content: start;
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="sc" id="sc">
+
+        <!-- 01 HERO -->
+        <section id="s-hero" data-idx="0">
+            <canvas id="hcanvas"></canvas>
+            <div class="hglow"></div>
+            <div class="hinner" style="right:5%">
+                <div class="h-eyebrow" id="h-ey"></div>
+                <h1 class="h-title" id="h-title">
+                    <span class="w">Mr</span><span class="w">N's</span><span class="w">Journey</span>
+                </h1>
+                <div class="h-crn" id="h-crn">Yilin's L1 Clinical Reasoning Documentation</div>
+                <p class="h-subtitle" id="h-sub">An occupation-centred approach to rehabilitation guided by the Occupational Therapy Intervention Process Model</p>
+                <div class="h-pills" id="h-pills">
+                    <div class="h-pill">Model · OTIPM</div>
+                    <div class="h-pill">Setting · Acute Inpatient</div>
+                    <div class="h-pill">Patient · Mr N, Anonymised</div>
+                </div>
+                <div class="h-arc-wrap">
+                    <svg viewBox="0 0 340 48" preserveAspectRatio="none">
+                        <path id="h-arc" class="h-arc" d="M 10 43 Q 170 -4 330 43" />
+                    </svg>
+                </div>
+            </div>
+            <img id="mr-n-fig" src="mr-n-wave.svg" alt="Mr N waving" style="position:absolute;right:10%;height:55vh;pointer-events:none;opacity:0;transition:opacity 0.8s ease;">
+            <div class="scroll-hint" id="sh">
+                <span>Scroll</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7a5c38" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
+            </div>
+        </section>
+
+        <!-- 02 OTIPM MODEL -->
+        <section id="s-model" data-idx="1">
+            <div class="eyebrow rv-fade">02 · OTIPM · The Transactional Model</div>
+            <h2 class="heading rv-up">OT Intervention Process Model</h2>
+
+            <div class="model-gallery">
+                <div class="gallery-viewport">
+                    <div class="gallery-track" id="gallery-track">
+
+                        <!-- SLIDE 1 / 4 : Transactional Model of Occupation -->
+                        <div class="gallery-slide s-tmo">
+                            <div class="tmo-wrap">
+                                <div class="tmo-orbit-ring"></div>
+
+                                <span class="tmo-ctx-label" style="top:2%;left:50%;transform:translateX(-50%);">Temporal</span>
+                                <span class="tmo-ctx-label" style="right:0;top:50%;transform:translateY(-50%);">Sociocultural</span>
+                                <span class="tmo-ctx-label" style="bottom:2%;left:50%;transform:translateX(-50%);">Environmental</span>
+                                <span class="tmo-ctx-label" style="left:0;top:50%;transform:translateY(-50%);">Task</span>
+
+                                <svg class="tmo-svg" viewBox="0 0 400 400" aria-hidden="true">
+                                    <defs>
+                                        <marker id="ta" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="rgba(194,124,10,0.45)"/></marker>
+                                        <marker id="ta2" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse"><path d="M6,0 L6,6 L0,3 z" fill="rgba(194,124,10,0.45)"/></marker>
+                                    </defs>
+                                    <line x1="200" y1="112" x2="114" y2="268" stroke="rgba(194,124,10,0.3)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#ta)" marker-start="url(#ta2)"/>
+                                    <line x1="200" y1="112" x2="286" y2="268" stroke="rgba(194,124,10,0.3)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#ta)" marker-start="url(#ta2)"/>
+                                    <line x1="114" y1="268" x2="286" y2="268" stroke="rgba(194,124,10,0.3)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#ta)" marker-start="url(#ta2)"/>
+                                </svg>
+
+                                <div class="tmo-node" style="left:50%;top:28%;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                    <span class="tmo-node-label">Occupational<br>Performance</span>
+                                </div>
+                                <div class="tmo-node" style="left:28.5%;top:67%;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2.5 2.5"/></svg>
+                                    <span class="tmo-node-label">Experience</span>
+                                </div>
+                                <div class="tmo-node" style="left:71.5%;top:67%;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    <span class="tmo-node-label">Participation</span>
+                                </div>
+
+                                <div class="tmo-center">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>
+                                </div>
+                            </div>
+                            <p class="tmo-caption">The person is never separated from their context. Temporal, sociocultural, environmental and task elements continuously shape — and are shaped by — occupational performance, experience and participation.</p>
+                        </div>
+
+                        <!-- SLIDE 2 / 4 : Top-Down Approach -->
+                        <div class="gallery-slide s-content">
+                            <div class="subhead" style="margin-top:0">Top-Down Approach</div>
+                            <p class="tmo-td-intro">The OTIPM always starts with the person's occupational world — never with impairment. Understanding roles and routines comes before performance factors.</p>
+                            <div class="td-flow">
+                                <div class="td-step">
+                                    <div class="td-step-dot">1</div>
+                                    <div class="td-step-text"><strong>Occupational Roles</strong> — Who is this person? What roles do they hold?</div>
+                                </div>
+                                <div class="td-connector"></div>
+                                <div class="td-step">
+                                    <div class="td-step-dot">2</div>
+                                    <div class="td-step-text"><strong>Routines</strong> — What does a typical day look like?</div>
+                                </div>
+                                <div class="td-connector"></div>
+                                <div class="td-step">
+                                    <div class="td-step-dot">3</div>
+                                    <div class="td-step-text"><strong>Occupations</strong> — What specific activities hold meaning and priority?</div>
+                                </div>
+                                <div class="td-connector"></div>
+                                <div class="td-step">
+                                    <div class="td-step-dot">4</div>
+                                    <div class="td-step-text"><strong>Performance Factors</strong> — Only then: what underlies or limits performance?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SLIDE 3 / 4 : Cyclical Process -->
+                        <div class="gallery-slide s-tmo">
+                            <div class="tmo-wrap">
+                                <div class="tmo-orbit-ring"></div>
+
+                                <svg class="tmo-svg" viewBox="0 0 400 400" aria-hidden="true">
+                                    <defs>
+                                        <marker id="ca" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                                            <path d="M0,0 L0,6 L6,3 z" fill="rgba(194,124,10,0.6)"/>
+                                        </marker>
+                                    </defs>
+                                    <!-- Arc: Evaluate → Intervention -->
+                                    <path d="M 248 68 A 140 140 0 0 1 338 224" fill="none" stroke="rgba(194,124,10,0.45)" stroke-width="1.5" marker-end="url(#ca)"/>
+                                    <!-- Arc: Intervention → Re-evaluation -->
+                                    <path d="M 290 307 A 140 140 0 0 1 110 307" fill="none" stroke="rgba(194,124,10,0.45)" stroke-width="1.5" marker-end="url(#ca)"/>
+                                    <!-- Arc: Re-evaluation → Evaluate -->
+                                    <path d="M 62 224 A 140 140 0 0 1 152 68" fill="none" stroke="rgba(194,124,10,0.45)" stroke-width="1.5" marker-end="url(#ca)"/>
+                                </svg>
+
+                                <!-- Stage 1: Evaluate & Goal Setting (top) -->
+                                <div class="tmo-node" style="left:50%;top:15%;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                    <span class="tmo-node-label">Evaluate &amp;<br>Goal Setting</span>
+                                </div>
+
+                                <!-- Stage 2: Intervention (bottom-right) -->
+                                <div class="tmo-node" style="left:80.25%;top:67.5%;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                    <span class="tmo-node-label">Intervention</span>
+                                </div>
+
+                                <!-- Stage 3: Re-evaluation (bottom-left) -->
+                                <div class="tmo-node" style="left:19.75%;top:67.5%;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                                    <span class="tmo-node-label">Re-evaluation</span>
+                                </div>
+
+                                <div class="cyc-center">
+                                    <span>Cyclical<br>Process</span>
+                                </div>
+                            </div>
+                            <p class="tmo-caption">Evaluation, intervention and re-evaluation repeat in a continuous cycle — each loop refining goals and strategies as performance changes.</p>
+                        </div>
+
+                        <!-- SLIDE 4 / 4 : 4 Frames of Reference -->
+                        <div class="gallery-slide s-content s-fill">
+                            <div class="subhead" style="margin-top:0">Under Intervention · 4 Frames of Reference</div>
+                            <div class="for-grid">
+                                <div class="for-card">
+                                    <div class="for-title">Adaptive</div>
+                                    <div class="for-body">Modify the task, environment or tools to support current performance.</div>
+                                </div>
+                                <div class="for-card">
+                                    <div class="for-title">Compensatory</div>
+                                    <div class="for-body">Use alternative strategies or equipment to enable participation now.</div>
+                                </div>
+                                <div class="for-card">
+                                    <div class="for-title">Acquisitional</div>
+                                    <div class="for-body">Learn new skills through practice in real, meaningful occupational contexts.</div>
+                                </div>
+                                <div class="for-card">
+                                    <div class="for-title">Rehabilitative</div>
+                                    <div class="for-body">Restore underlying skills and body functions through occupation-based activity.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /gallery-track -->
+                </div><!-- /gallery-viewport -->
+
+                <div class="gallery-nav">
+                    <button class="gallery-btn" id="gallery-prev" aria-label="Previous slide" disabled>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <div class="gallery-dots" id="gallery-dots">
+                        <button class="gallery-dot active" aria-label="Slide 1: Transactional Model"></button>
+                        <button class="gallery-dot" aria-label="Slide 2: Top-Down Approach"></button>
+                        <button class="gallery-dot" aria-label="Slide 3: Cyclical Process"></button>
+                        <button class="gallery-dot" aria-label="Slide 4: Frames of Reference"></button>
+                    </div>
+                    <button class="gallery-btn" id="gallery-next" aria-label="Next slide">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div><!-- /model-gallery -->
+        </section>
+
+        <!-- 03 TIMELINE -->
+        <section id="s-tl" data-idx="7">
+            <div class="eyebrow rv-fade">03 · Timeline</div>
+            <h2 class="heading rv-up">Mr N’s Journey</h2>
+
+            <div class="htl-wrap">
+                <div class="htl-track">
+                    <div class="htl-line"></div>
+
+                    <div class="htl-point rv-up" style="--d:0ms"
+                        data-date="19 Nov 2025"
+                        data-title="SKH Admission — B-ALL Diagnosis"
+                        data-body="map-pin|Presented to SKH with GE, diverticulitis||droplet|Severe thrombocytopenia noted on bloods||alert-triangle|Newly diagnosed with B-ALL||users|Lymphoblasts crowd out healthy blood cells||activity|Causes anaemia, infections, easy bruising">
+                        <div class="htl-date">19 Nov<br>2025</div>
+                        <div class="htl-dot"></div>
+                        <div class="htl-label">B-ALL diagnosed</div>
+                    </div>
+
+                    <div class="htl-point rv-up" style="--d:60ms"
+                        data-date="30 Nov 2025"
+                        data-title="Transferred to SGH Haematology"
+                        data-body="map-pin|Transferred to SGH Haematology||plus-circle|Commenced chemotherapy for B-ALL">
+                        <div class="htl-date">30 Nov<br>2025</div>
+                        <div class="htl-dot"></div>
+                        <div class="htl-label">SGH — chemo starts</div>
+                    </div>
+
+                    <div class="htl-point setback rv-up" style="--d:120ms"
+                        data-date="8 – 12 Dec 2025 · MICA Admission"
+                        data-title="Neutropenic Septic Shock"
+                        data-body="zap|Chemo-induced neutropenia left Mr N vulnerable (Li et al., 2019)||alert-triangle|E.coli triggered neutropenic septic shock||activity|BP dropped; widespread systemic inflammation||heart|Admitted MICA for NorA vasopressor support||droplet|AKI secondary to hypoperfusion; SLED commenced">
+                        <div class="htl-date">8–12 Dec<br>2025</div>
+                        <div class="htl-dot"></div>
+                        <div class="htl-label">MICA — septic shock</div>
+                    </div>
+
+                    <div class="htl-point setback rv-up" style="--d:180ms"
+                        data-date="24 Dec 2025 · MICU Admission"
+                        data-title="2nd Septic Shock — MICU Admission"
+                        data-body="activity|BP 70s; intubated and admitted MICU||alert-triangle|2nd septic shock, Norovirus hypovolaemia||trending-up|Extubated to NIV 25 Dec||alert-circle|New right phrenic nerve palsy noted">
+                        <div class="htl-date">24 Dec<br>2025</div>
+                        <div class="htl-dot"></div>
+                        <div class="htl-label">MICU — 2nd shock</div>
+                    </div>
+
+                    <div class="htl-point setback rv-up" style="--d:240ms"
+                        data-date="1 Jan 2026 · Emergency Surgery"
+                        data-title="Rectal Perforation — Hartmann’s Procedure"
+                        data-body="alert-triangle|Raised CRP; CTAP showed rectal perforation||scissors|Ex-lap and washout performed 1 Jan||scissors|Hartmann’s: rectosigmoid resection, end colostomy||alert-circle|Elevated post-op infection risk (Jiang et al., 2024)">
+                        <div class="htl-date">1 Jan<br>2026</div>
+                        <div class="htl-dot"></div>
+                        <div class="htl-label">Hartmann’s procedure</div>
+                    </div>
+
+                    <div class="htl-point rv-up" style="--d:300ms"
+                        data-date="10 Jan 2026 — step-down · 13 Jan — OT referral"
+                        data-title="Step-down to GW &amp; OT Referral"
+                        data-body="trending-up|Stepped down to general ward 10 Jan||clipboard|OT referral 13 Jan; assessed 14 Jan||zap|Diagnosed critical illness myopathy (CIM)||activity|Right phrenic nerve palsy secondary to CIM||user|CIM: cause of profound generalised weakness (Kalamgi &amp; Larsson, 2016)">
+                        <div class="htl-date">10 Jan<br>2026</div>
+                        <div class="htl-dot"></div>
+                        <div class="htl-label">Step-down &amp; OT</div>
+                    </div>
+                </div>
+
+                <div class="htl-detail">
+                    <div class="htl-card" id="htl-card">
+                        <div class="htl-card-date" id="htl-card-date"></div>
+                        <div class="htl-card-title" id="htl-card-title"></div>
+                        <div class="htl-card-body" id="htl-card-body"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05 PATIENT PROFILE + 06 OCCUPATIONAL PROFILE -->
+        <section id="s-profile" data-idx="4" style="display:grid;grid-template-columns:1fr 560px;padding:0;gap:0;overflow:hidden;">
+
+            <!-- LEFT: patient figure + nodes (unchanged) -->
+            <div class="prof-left">
+                <div class="eyebrow">04 · Patient Profile</div>
+                <div class="fig-wrap rv-fade" id="figwrap">
+                    <img src="patient-figure.svg" alt="Patient figure" />
+                    <div class="node" style="top:45%;left:90%" data-key="roles"><div class="ndot"></div><span class="nlbl">Roles</span></div>
+                    <div class="node" style="top:70%;left:60%" data-key="physical"><div class="ndot"></div><span class="nlbl">Physical</span></div>
+                    <div class="node" style="top:5%;left:25%" data-key="cognitive"><span class="nlbl">Cognitive</span><div class="ndot"></div></div>
+                    <div class="node" style="top:39%;left:40%" data-key="psychosocial"><span class="nlbl">Psychosocial</span><div class="ndot"></div></div>
+                    <div class="node" style="top:10%;left:90%" data-key="environment"><div class="ndot"></div><span class="nlbl">Environment</span></div>
+                </div>
+                <div class="phint">Select a node to explore</div>
+            </div>
+
+            <!-- RIGHT: occupational profile cards (default) or node detail panel (on click) -->
+            <div style="position:relative;overflow:hidden;border-left:1px solid var(--border);background:var(--surface);">
+
+                <!-- Default: Occupational Profile cards -->
+                <div id="occ-default" style="padding:48px 32px 32px;height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:14px;">
+                    <div class="eyebrow" style="margin-bottom:4px;">06 · Occupational Profile</div>
+                    <div style="font-family:'Playfair Display',serif;font-size:24px;line-height:1.2;color:var(--text);margin-bottom:8px;">The Person Behind the Patient</div>
+                    <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
+                        <div class="card" style="padding:16px 18px;gap:7px;">
+                            <h3>Pre-Morbid</h3>
+                            <p style="font-size:20px;">Fully independent in all bADLs and iADLs. Active social life, family involvement, community participation.</p>
+                        </div>
+                        <div class="card" style="padding:16px 18px;gap:7px;">
+                            <h3>Now</h3>
+                            <p style="font-size:20px;">Unable to sit up, stand, or move without assistance. Dependent in all self-care. At odds with the independent man he had been.</p>
+                        </div>
+                        <div class="card" style="padding:16px 18px;gap:7px;">
+                            <h3>Occupational Shift</h3>
+                            <p style="font-size:20px;">Early in the admission he expressed distress at being in hospital and unable to care for himself. Over months, the ward has become normalised</p>
+                        </div>
+                        <div class="card" style="padding:16px 18px;gap:7px;">
+                            <h3>His Priorities</h3>
+                            <p style="font-size:20px;">Return to independent mobility, independence in personal care. Going home and resumed participation in hobbies </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail panel: shown when a node is clicked (replaces the cards above) -->
+                <div class="dpanel" id="dpanel" style="position:absolute;inset:0;border-left:none;">
+                    <div class="dtopbar"></div>
+                    <button class="dclose" id="dclose">✕</button>
+                    <div class="dicon" id="dic"></div>
+                    <div class="dtitle" id="dti"></div>
+                    <div class="dbody" id="dbo"></div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- 09 OTIPM CYCLE RINGS — three repeatable ring units, built by initRings() in JS -->
+        <section id="s-spiral" data-idx="8">
+            <div class="eyebrow rv-fade" style="position:absolute;top:56px;left:72px;">07 · OTIPM · Cyclical Process</div>
+            <div class="rings-row">
+
+                <!-- Ring Unit: each .ring-unit shares the same structure; JS populates from RING_DATA -->
+                <div class="ring-unit" id="ring-unit-0">
+                    <div class="ring-unit-label" data-ring-label></div>
+                    <div class="ring-wrap">
+                        <svg class="ring-svg" viewBox="0 0 360 360">
+                            <circle class="ring-arc-bg" cx="180" cy="180" r="148" />
+                            <circle class="ring-arc-anim" cx="180" cy="180" r="148" transform="rotate(-90 180 180)" />
+                            <g class="ring-overlay" aria-hidden="true"><circle class="ring-dots" cx="180" cy="180" r="158" /></g>
+                        </svg>
+                        <!-- rnode buttons injected by JS -->
+                        <div class="ring-center" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;">
+                            <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--text);" data-ring-center-title></div>
+                            <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;" data-ring-center-sub></div>
+                        </div>
+                    </div>
+                    <div class="ring-card" data-ring-card>
+                        <button class="ring-card-close" data-ring-close aria-label="Close">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                        <div class="ring-card-ph" data-ring-ph>Select a phase<br>to explore</div>
+                        <div data-ring-cnt style="display:none;flex-direction:column;gap:10px;">
+                            <div class="rc-title" data-rc-title></div>
+                            <div class="rc-body" data-rc-body></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ring-unit" id="ring-unit-1">
+                    <div class="ring-unit-label" data-ring-label></div>
+                    <div class="ring-wrap">
+                        <svg class="ring-svg" viewBox="0 0 360 360">
+                            <circle class="ring-arc-bg" cx="180" cy="180" r="148" />
+                            <circle class="ring-arc-anim" cx="180" cy="180" r="148" transform="rotate(-90 180 180)" />
+                            <g class="ring-overlay" aria-hidden="true"><circle class="ring-dots" cx="180" cy="180" r="158" /></g>
+                        </svg>
+                        <div class="ring-center" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;">
+                            <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--text);" data-ring-center-title></div>
+                            <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;" data-ring-center-sub></div>
+                        </div>
+                    </div>
+                    <div class="ring-card" data-ring-card>
+                        <button class="ring-card-close" data-ring-close aria-label="Close">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                        <div class="ring-card-ph" data-ring-ph>Select a phase<br>to explore</div>
+                        <div data-ring-cnt style="display:none;flex-direction:column;gap:10px;">
+                            <div class="rc-title" data-rc-title></div>
+                            <div class="rc-body" data-rc-body></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ring-unit" id="ring-unit-2">
+                    <div class="ring-unit-label" data-ring-label></div>
+                    <div class="ring-wrap">
+                        <svg class="ring-svg" viewBox="0 0 360 360">
+                            <circle class="ring-arc-bg" cx="180" cy="180" r="148" />
+                            <circle class="ring-arc-anim" cx="180" cy="180" r="148" transform="rotate(-90 180 180)" />
+                            <g class="ring-overlay" aria-hidden="true"><circle class="ring-dots" cx="180" cy="180" r="158" /></g>
+                        </svg>
+                        <div class="ring-center" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;">
+                            <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--text);" data-ring-center-title></div>
+                            <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;" data-ring-center-sub></div>
+                        </div>
+                    </div>
+                    <div class="ring-card" data-ring-card>
+                        <button class="ring-card-close" data-ring-close aria-label="Close">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                        <div class="ring-card-ph" data-ring-ph>Select a phase<br>to explore</div>
+                        <div data-ring-cnt style="display:none;flex-direction:column;gap:10px;">
+                            <div class="rc-title" data-rc-title></div>
+                            <div class="rc-body" data-rc-body></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 10 GOALS & GAS -->
+        <section id="s-goals" data-idx="9" style="overflow-y:auto;">
+            <div class="eyebrow rv-fade">08 · Goals &amp; GAS Outcomes</div>
+            <h2 class="heading rv-up">GOAL ATTAINMENT SCALES</h2>
+
+            <div class="prob-grid">
+
+                <!-- Card 1: Grooming Task -->
+                <div class="prob-flip rv-up" style="--d:0ms">
+                    <div class="prob-flip-inner">
+                        <div class="prob-flip-front" onclick="this.closest('.prob-flip-inner').classList.add('flipped')">
+                            <img src="card1.svg" alt="Grooming Task" onerror="this.parentNode.innerHTML='<div class=prob-flip-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg>card1.svg</div>'" />
+                            <div class="prob-flip-hint">Click to explore →</div>
+                        </div>
+                        <div class="prob-flip-back prob-card" style="border-left:4px solid var(--primary);">
+                            <button class="prob-flip-close" onclick="event.stopPropagation();this.closest('.prob-flip-inner').classList.remove('flipped')">✕</button>
+                            <div class="prob-card-head">
+                                <span class="prob-card-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                </span>
+                                <span class="prob-card-title">Ring 1 · Grooming Task</span>
+                            </div>
+                            <div class="prob-section-label">Short-term Goals</div>
+                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing</strong> in sitting with <strong>minimal assistance</strong> by bedside in 2 weeks</div><div class="gas-badge gas-pos1">+1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing, shaving &amp; facewashing</strong> in sitting with <strong>minimal assistance</strong> in 3 weeks</div><div class="gas-badge gas-pos1">+1</div></div>
+                            <div class="prob-section-label" style="margin-top:8px;">Long-term Goals</div>
+                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing, shaving &amp; facewashing</strong> in <strong>standing</strong> with minimal assistance in 1 month</div><div class="gas-badge gas-pos1">+1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Independent</strong> toothbrushing, shaving &amp; facewashing <strong>by sink in standing</strong> in 2 months</div><div class="gas-badge gas-pos2">+2</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Mobility & Transfers -->
+                <div class="prob-flip rv-up" style="--d:80ms">
+                    <div class="prob-flip-inner">
+                        <div class="prob-flip-front" onclick="this.closest('.prob-flip-inner').classList.add('flipped')">
+                            <img src="card2.svg" alt="Mobility & Transfers" onerror="this.parentNode.innerHTML='<div class=prob-flip-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg>card2.svg</div>'" />
+                            <div class="prob-flip-hint">Click to explore →</div>
+                        </div>
+                        <div class="prob-flip-back prob-card" style="border-left:4px solid var(--primary);">
+                            <button class="prob-flip-close" onclick="event.stopPropagation();this.closest('.prob-flip-inner').classList.remove('flipped')">✕</button>
+                            <div class="prob-card-head">
+                                <span class="prob-card-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/><path d="M7 21l2-8 3 3 2-4 2 6"/><path d="M11 13l-2-5 5 1"/></svg>
+                                </span>
+                                <span class="prob-card-title">Ring 2 · Mobility &amp; Transfers</span>
+                            </div>
+                            <div class="prob-section-label">Short-term Goals</div>
+                            <div class="goal-row"><div class="goal-text"><strong>Sit to stand</strong> to frame with <strong>maximal assistance</strong> in 3 weeks</div><div class="gas-badge gas-neg2">−2</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Moderate assistance pivot transfer</strong> bed ↔ chair and in 3 weeks</div><div class="gas-badge gas-neg2">+1</div></div>
+                            <div class="prob-section-label" style="margin-top:8px;">Long-term Goals</div>
+                            <div class="goal-row"><div class="goal-text"><strong>Mobilise within the bay</strong> with moderate assistance and appropriate aid in 2 months</div><div class="gas-badge gas-pos1">+1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Mobilize independently</strong> with appropriate aid in 3 months</div><div class="gas-badge gas-pos1">+1</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Outdoor Mobility & Leisure -->
+                <div class="prob-flip rv-up" style="--d:160ms">
+                    <div class="prob-flip-inner">
+                        <div class="prob-flip-front" onclick="this.closest('.prob-flip-inner').classList.add('flipped')">
+                            <img src="card3.svg" alt="Outdoor Mobility & Leisure" onerror="this.parentNode.innerHTML='<div class=prob-flip-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg>card3.svg</div>'" />
+                            <div class="prob-flip-hint">Click to explore →</div>
+                        </div>
+                        <div class="prob-flip-back prob-card" style="border-left:4px solid var(--primary);">
+                            <button class="prob-flip-close" onclick="event.stopPropagation();this.closest('.prob-flip-inner').classList.remove('flipped')">✕</button>
+                            <div class="prob-card-head">
+                                <span class="prob-card-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="4"/><path d="M12 2v3m0 14v3M4.22 4.22l2.12 2.12m11.32 11.32 2.12 2.12M2 12h3m14 0h3M4.22 19.78l2.12-2.12M18.66 5.34l2.12-2.12"/></svg>
+                                </span>
+                                <span class="prob-card-title">Ring 3 · Outdoor Mobility &amp; Leisure</span>
+                            </div>
+                            <div class="prob-section-label">Short-term Goals</div>
+                            <div class="goal-row"><div class="goal-text"><strong>Walk in park at Block 4</strong> with wife's supervision and appropriate aid in 3 weeks (wheelchair for transit)</div><div class="gas-badge gas-neg2">−1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Standing bimanual tasks</strong> with minimal assistance and appropriate aid in 3 weeks</div><div class="gas-badge gas-neg2">−1</div></div>
+                            <div class="prob-section-label" style="margin-top:8px;">Long-term Goals</div>
+                            <div class="goal-row"><div class="goal-text"><strong>Walk in nature for 30 min</strong> with rollator frame and supervision in 2 months</div><div class="gas-badge gas-prog">Ongoing</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Independent nature walks</strong> with single-sided aid in 5 months</div><div class="gas-badge gas-prog">Ongoing</div></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 11 OUTCOMES -->
+        <section id="s-out" data-idx="10" style="overflow-y:auto;">
+            <div class="eyebrow rv-fade">09 · Outcomes · FIM SCORES</div>
+            <h2 class="heading rv-up">FIM Trajectory &amp; Current Status</h2>
+            <div class="og2">
+                <div class="mcard rv-up" style="--d:0ms"><div class="mlbl">FIM at Referral</div><div class="mval">52</div><div class="msub">Jan 14 2026</div></div>
+                <div class="mcard rv-up" style="--d:100ms"><div class="mlbl">FIM End Phase 1</div><div class="mval">63</div><div class="msub">Feb 14 2026<br><div class="mbar" style="margin-top:6px;"><div class="mbar-fill" id="bar1"></div></div></div></div>
+                <div class="mcard rv-up" style="--d:200ms"><div class="mlbl">FIM End Phase 2</div><div class="mval">78</div><div class="msub">Mar 3 2026<br><div class="mbar" style="margin-top:6px;"><div class="mbar-fill" id="bar2"></div></div></div></div>
+                <div class="mcard rv-up" style="--d:300ms"><div class="mlbl">FIM End Phase 3*</div><div class="mval">97</div><div class="msub">5 May 2026 (before repeat op)<br><div class="mbar" style="margin-top:6px;"><div class="mbar-fill" id="bar3"></div></div></div></div>
+            </div>
+            <div class="og-bot" style="flex:1;min-height:0;">
+                <div style="overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(44,26,8,0.06);">
+                    <div class="rtitle" style="margin-bottom:12px;">FIM Domain Breakdown</div>
+                    <table class="fim-table">
+                        <tr><th>Domain</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr*</th></tr>
+                        <tr><td>Eating</td><td>1</td><td>5</td><td>5</td><td>7</td></tr>
+                        <tr><td>Grooming</td><td>1</td><td>5</td><td>5</td><td>7</td></tr>
+                        <tr><td>Bathing</td><td>1</td><td>2</td><td>2</td><td>5</td></tr>
+                        <tr><td>UL Dressing</td><td>1</td><td>2</td><td>4</td><td>7</td></tr>
+                        <tr><td>LL Dressing</td><td>1</td><td>1</td><td>4</td><td>6</td></tr>
+                        <tr><td>Toileting</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+                        <tr><td>Bladder management</td><td>6</td><td>6</td><td>5</td><td>7</td></tr>
+                        <tr><td>Bowel management</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                        <tr><td>Bed Transfers</td><td>1</td><td>3</td><td>6</td><td>7</td></tr>
+                        <tr><td>Toilet/Tub Transfers</td><td>1</td><td>1</td><td>4</td><td>6</td></tr>
+                        <tr><td>Walking</td><td>1</td><td>1</td><td>5</td><td>6</td></tr>
+                        <tr><td>Cognition</td><td>35</td><td>35</td><td>35</td><td>35</td></tr>
+                        <tr><td><strong>Total</strong></td><td><strong>52</strong></td><td><strong>63</strong></td><td><strong>78</strong></td><td><strong>97</strong></td></tr>
+                    </table>
+                    <div style="font-size:12px;color:var(--muted);margin-top:10px;font-style:italic;">FIM scored retrospectively based on objective functional observation at each time point, consistent with clinical assessment practice. *Apr socred prior to the re-operation</div>
+                </div>
+                <div class="cquote-box rv-fade" style="--d:600ms">
+                    <div style="display:grid;gap:10px;margin-bottom:16px;">
+                        <div class="mcard" style="padding:16px;"><div class="mlbl">Transfers</div><span class="spill s-sage" style="font-size:12px;padding:4px 10px;">Independent</span></div>
+                        <div class="mcard" style="padding:16px;"><div class="mlbl">Mobility</div><span class="spill s-sage" style="font-size:12px;padding:4px 10px;">Rollator — Independent</span></div>
+                        <div class="mcard" style="padding:16px;"><div class="mlbl">Washing</div><span class="spill s-gold" style="font-size:9px;padding:4px 10px;">Set up assist sponging</span></div>
+                        <div class="mcard" style="padding:16px;"><div class="mlbl">Dressing</div><span class="spill s-gold" style="font-size:12px;padding:4px 10px;">Independent upper body, modified independent lower body dressing</span></div>
+                        <div class="mcard" style="padding:16px;"><div class="mlbl">Toileting</div><span class="spill s-gold" style="font-size:12px;padding:4px 10px;">Independent urinal, not keen for stoma care</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12 Reflections -->
+        <section id="s-reflect" data-idx="11" style="overflow-y:auto;">
+            <div class="eyebrow rv-fade">10 · Reflections</div>
+            <h2 class="heading rv-up">Reflections</h2>
+
+            <div class="reflect-grid">
+
+                <!-- Card 1: MDT Working -->
+                <div class="rfl-card rv-up" style="--d:0ms" onclick="this.classList.toggle('masked')">
+                    <div class="rfl-front">
+                        <img src="reflect-mdt.svg" alt="MDT Working"
+                             onerror="this.parentNode.innerHTML='<div class=rfl-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg></div>'" />
+                    </div>
+                    <div class="rfl-mask">
+                        <div class="rfl-mask-title">MDT Working</div>
+                        <div class="rfl-keywords">
+                            <span class="rfl-kw">Collaboration</span>
+                            <span class="rfl-kw">Physiotherapy</span>
+                            <span class="rfl-kw">Nursing</span>
+                            <span class="rfl-kw">Holistic Care</span>
+                        </div>
+                        <div class="rfl-dismiss">Click to close</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Emphasis on Occupations -->
+                <div class="rfl-card rv-up" style="--d:80ms" onclick="this.classList.toggle('masked')">
+                    <div class="rfl-front">
+                        <img src="reflect-occupations.svg" alt="Emphasis on Occupations"
+                             onerror="this.parentNode.innerHTML='<div class=rfl-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg></div>'" />
+                    </div>
+                    <div class="rfl-mask">
+                        <div class="rfl-mask-title">Emphasis on Occupations</div>
+                        <div class="rfl-keywords">
+                            <span class="rfl-kw">Occupation-Based</span>
+                            <span class="rfl-kw">Meaningful Activity</span>
+                            <span class="rfl-kw">ADL Retraining</span>
+                        </div>
+                        <div class="rfl-dismiss">Click to close</div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Therapeutic Rapport & Grading -->
+                <div class="rfl-card rv-up" style="--d:160ms" onclick="this.classList.toggle('masked')">
+                    <div class="rfl-front">
+                        <img src="reflect-rapport.svg" alt="Therapeutic Rapport & Grading"
+                             onerror="this.parentNode.innerHTML='<div class=rfl-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg></div>'" />
+                    </div>
+                    <div class="rfl-mask">
+                        <div class="rfl-mask-title">Therapeutic Rapport &amp; Grading</div>
+                        <div class="rfl-keywords">
+                            <span class="rfl-kw">Rapport</span>
+                            <span class="rfl-kw">Grading</span>
+                            <span class="rfl-kw">Therapeutic Use of Self</span>
+                        </div>
+                        <div class="rfl-dismiss">Click to close</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 12 REFERENCES -->
+        <section id="s-ref" data-idx="12" style="overflow-y:auto;">
+            <div class="eyebrow rv-fade">11 · References</div>
+            <h2 class="heading rv-up">References</h2>
+
+            <div class="ref-cols">
+
+                <div class="ref-item rv-up" style="--d:0ms">
+                    <span class="ref-cite">Brill et al. (2024/2025)</span>
+                    <span class="ref-full">Brill, A. K., Latronico, N., &amp; colleagues. (2024/2025). Critical illness myopathy and ICU-acquired weakness: Rehabilitation trajectories and education. <em>Critical Care.</em> (In press/online ahead of print).</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:80ms">
+                    <span class="ref-cite">Fisher (2014)</span>
+                    <span class="ref-full">Fisher, A. G. (2014). Occupation‑centred, occupation‑based, occupation‑focused: Same, same or different? <em>Scandinavian Journal of Occupational Therapy, 21</em>(2), 96–107. https://doi.org/10.3109/11038128.2013.853832</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:160ms">
+                    <span class="ref-cite">Fisher &amp; Marterella (2019)</span>
+                    <span class="ref-full">Fisher, A. G., &amp; Marterella, A. (2019). <em>Powerful practice: A model for authentic occupational therapy.</em> Center for Innovative OT Solutions.</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:240ms">
+                    <span class="ref-cite">Hiser et al. (2025)</span>
+                    <span class="ref-full">Hiser, S. L., Casey, K., Nydahl, P., Hodgson, C. L., &amp; Needham, D. M. (2025). Intensive care unit acquired weakness and physical rehabilitation in the ICU. <em>BMJ, 388</em>, e077292. https://doi.org/10.1136/bmj-2023-077292</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:320ms">
+                    <span class="ref-cite">Jiang et al. (2024)</span>
+                    <span class="ref-full">Jiang, Y., Liu, R., You, Q., et al. (2024). Comparison of the risk of postoperative wound infection in patients with rectal cancer by laparoscopic versus open Hartmann's surgery. <em>International Wound Journal, 21</em>(2), e14752. https://doi.org/10.1111/iwj.14752</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:400ms">
+                    <span class="ref-cite">Kalamgi &amp; Larsson (2016)</span>
+                    <span class="ref-full">Kalamgi, R. C., &amp; Larsson, L. (2016). Mechanical signaling in the pathophysiology of critical illness myopathy. <em>Frontiers in Physiology, 7</em>, 23. https://doi.org/10.3389/fphys.2016.00023</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:480ms">
+                    <span class="ref-cite">Kaur &amp; Hong (2024)</span>
+                    <span class="ref-full">Kaur, A., &amp; Hong, J. S. (2024, January 25). Critical illness myopathy. <em>PM&amp;R KnowledgeNow.</em> American Academy of Physical Medicine and Rehabilitation. https://now.aapmr.org/critical-illness-myopathy</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:560ms">
+                    <span class="ref-cite">Latronico et al. (2023)</span>
+                    <span class="ref-full">Latronico, N., Bolton, C. F., &amp; colleagues. (2023). Critical illness polyneuropathy and myopathy: Clinical features, diagnosis, and management. <em>Critical Care, 27</em>, 122.</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:640ms">
+                    <span class="ref-cite">Li et al. (2019)</span>
+                    <span class="ref-full">Li, C. K., Zhu, Y., Tang, J., et al. (2019). Septicemia after chemotherapy for acute lymphoblastic leukemia: A multicenter study (CCCG-ALL-2015). <em>Blood, 134</em>(Suppl. 1), 5080. https://doi.org/10.1182/blood-2019-123451</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:720ms">
+                    <span class="ref-cite">Mayer &amp; Engle (2022)</span>
+                    <span class="ref-full">Mayer, R. S., &amp; Engle, J. (2022). Rehabilitation of individuals with cancer. <em>Annals of Rehabilitation Medicine, 46</em>(2), 60–70. https://doi.org/10.5535/arm.22036</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:800ms">
+                    <span class="ref-cite">Morris et al. (2023)</span>
+                    <span class="ref-full">Morris, P. E., et al. (2023). Standing balance training, truncal control, and progressive dynamic tasks in post‑ICU rehabilitation: A systematic review. <em>Journal of Rehabilitation Medicine, 55</em>(1). https://doi.org/10.2340/jrm.v55.10001</span>
+                </div>
+
+                <div class="ref-item rv-up" style="--d:880ms">
+                    <span class="ref-cite">Needham et al. (2010)</span>
+                    <span class="ref-full">Needham, D. M., et al. (2010). Improving long‑term outcomes after discharge from intensive care unit: Report from a stakeholders' conference. <em>Critical Care Medicine, 40</em>(2), 502–509. https://doi.org/10.1097/CCM.0b013e3181e43f67</span>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const RM=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const slides=document.querySelectorAll("[data-idx]");
+        const N=slides.length;
+
+        const sObs=new IntersectionObserver(es=>{
+        es.forEach(e=>{
+        if(e.isIntersecting&&e.intersectionRatio>0.4){
+        const i=+e.target.dataset.idx;
+        if(i===N-1)initOut();
+        }
+        });
+        },{threshold:0.4});
+        slides.forEach(s=>sObs.observe(s));
+
+        document.querySelectorAll(".rv-up,.rv-fade,.rv-left,.rv-right").forEach(el=>{
+        const obs=new IntersectionObserver(es=>{
+        if(es[0].isIntersecting){
+        const d=RM?0:(parseInt(getComputedStyle(el).getPropertyValue("--d"))||0);
+        setTimeout(()=>el.classList.add("shown"),d);
+        obs.unobserve(el);
+        }
+        },{threshold:0.1});
+        obs.observe(el);
+        });
+
+        /* HERO */
+        (()=>{
+        const c=document.getElementById("hcanvas");
+        const ctx=c.getContext("2d");
+        let W,H,pts=[],mx=-999,my=-999;
+        function sz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+        function mk(){pts=Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.3+.4,a:Math.random()*.25+.06}));}
+        function dr(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);if(d<100){p.vx+=(dx/d)*.22;p.vy+=(dy/d)*.22;}p.vx*=.97;p.vy*=.97;p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(194,124,10,${p.a})`;ctx.fill();});requestAnimationFrame(dr);}
+        window.addEventListener("resize",()=>{sz();mk();});
+        document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
+        sz();mk();if(!RM)dr();
+        })();
+
+        /* rnodes are positioned using percentage coordinates (left/top) inside .ring-wrap
+        so they align with the SVG circle responsively. No JS placement required. */
+
+        (()=>{
+        const eyTxt="Occupational Therapy · Case Presentation";
+        const ey=document.getElementById("h-ey");
+        if(RM){ey.textContent=eyTxt;document.querySelectorAll(".w").forEach(w=>{w.style.opacity=1;w.style.transform="none";});document.getElementById("h-crn").style.opacity=1;document.getElementById("h-sub").style.opacity=1;document.querySelectorAll(".h-pill").forEach(p=>{p.style.opacity=1;p.style.transform="none";});document.getElementById("h-arc").style.strokeDashoffset=0;const fig=document.getElementById("mr-n-fig");if(fig)fig.style.opacity=1;document.getElementById("sh").style.opacity=1;return;}
+        let ci=0;
+        setTimeout(()=>{const t=setInterval(()=>{ey.textContent=eyTxt.slice(0,++ci);if(ci>=eyTxt.length)clearInterval(t);},38);},700);
+        setTimeout(()=>{document.querySelectorAll(".w").forEach((w,i)=>setTimeout(()=>{w.style.opacity=1;w.style.transform="none";},i*200));},1200);
+        setTimeout(()=>{document.getElementById("h-crn").style.opacity=1;},1900);
+        setTimeout(()=>{document.getElementById("h-sub").style.opacity=1;},2300);
+        setTimeout(()=>{document.querySelectorAll(".h-pill").forEach((p,i)=>setTimeout(()=>{p.style.opacity=1;p.style.transform="none";},i*120));},2700);
+        setTimeout(()=>{document.getElementById("h-arc").style.strokeDashoffset="0";},3200);
+        setTimeout(()=>{const fig=document.getElementById("mr-n-fig");if(fig)fig.style.opacity=1;},3500);
+        setTimeout(()=>{document.getElementById("sh").style.opacity=1;},3800);
+        })();
+
+        /* PROFILE NODES */
+        const ND={
+        roles:{icon:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c27c0a" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>',title:"Roles & Routines",body:[
+        "Retired grandfather, parent, sibling, friend, and community volunteer.",
+        "Regular meals out with friends and daughters.",
+        "Actively involved in his grandson's life",
+        "Various interests - he organized a night walk/flashlight group, he enjoyed bird shooting (taking photos of birds), travelling with his wife, and eating out with his friends and family.",
+        ],tags:["Retired","Grandfather","Community Volunteer"]},
+        physical:{icon:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c27c0a" stroke-width="1"><path d="M18 8h1a4 4 0 0 1 0 8h-1M6 8H5a4 4 0 0 0 0 8h1M6 12h12"/></svg>',title:"Physical Function",body:[
+        "Pre-morbidly 5/5 all limbs; previously enjoyed cycling, did long distance cycling when younger.",
+        "On Assessment (14/1):",
+        "> UL : 3/3+/3+, LL 2/2/3",
+        "Reduced truncal control; maximum 5-minute unsupported sitting.",
+        "Moderate assistance of two for pivot transfer — passive throughout."
+        ],tags:["CIM", "Poor tolerance"]},
+        cognitive:{icon:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c27c0a" stroke-width="1"><ellipse cx="12" cy="12" rx="10" ry="10"/><path d="M12 8v4l3 3"/></svg>',title:"Cognitive Function",body:[
+        "Orientated and cooperative at point of OT referral.",
+        "Post-critical illness cognitive impairment compounded by systemic inflammation and cancer-related fatigue.",
+        "Complex cognitive–fatigue profile requiring continuous adaptation.",
+        ],tags:["Cognitive fatigue"]},
+        psychosocial:{icon:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c27c0a" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="0.5" fill="#c27c0a"/><circle cx="15" cy="9" r="0.5" fill="#c27c0a"/></svg>',title:"Psychosocial Factors",body:[
+        "Initial distress at loss of independence.",
+        "Identity tied to being active, present, and relied upon.",
+        "Variable motivation across a long admission.",
+        "Gradual adaptation to hospitalisation; ward normalisation creating occupational risk.",
+        ],tags:["Role Loss","Variable Motivation","Identity Disruption","Adapted Normalcy"]},
+        environment:{icon:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c27c0a" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',title:"Environment",body:[
+        "5-room HDB flat with family; previously navigated independently without equipment.",
+        "Acute ward not designed for meaningful occupational engagement.",
+        "Bedside context limited authentic task practice.",
+        "Strong family and friend support network.",
+        ],tags:["5-Room HDB","No Prior Equipment","Strong Family Support","Bedside Context"]}
+        };
+        document.querySelectorAll(".node").forEach(n=>{
+        n.addEventListener("click",()=>{
+        const d=ND[n.dataset.key];
+        if(!d) return;
+        document.getElementById("dic").innerHTML=d.icon;
+        document.getElementById("dti").textContent=d.title;
+        const dbo=document.getElementById("dbo");
+        dbo.innerHTML='';
+        if(Array.isArray(d.body)){
+        const list=document.createElement('div');
+        list.className='dlist';
+        d.body.forEach(item=>{
+        const it=document.createElement('div');
+        it.className='ditem';
+        it.textContent=item;
+        list.appendChild(it);
+        });
+        dbo.appendChild(list);
+        } else {
+        const p=document.createElement('div');
+        p.textContent=d.body||'';
+        dbo.appendChild(p);
+        }
+        const occDefault=document.getElementById("occ-default");
+        if(occDefault) occDefault.style.display="none";
+        document.getElementById("dpanel").classList.add("open");
+        });
+        });
+        document.getElementById("dclose").addEventListener("click",()=>{
+        document.getElementById("dpanel").classList.remove("open");
+        const occDefault=document.getElementById("occ-default");
+        if(occDefault) occDefault.style.display="flex";
+        });
+        /* ── OTIPM RINGS ─────────────────────────────────────────────────────────
+        To add or edit a ring: update RING_DATA below.
+        Each entry maps to a .ring-unit by index (ring-unit-0, ring-unit-1, …).
+        The node positions (left/top %) place buttons on the SVG circle.
+        ──────────────────────────────────────────────────────────────────────── */
+        (()=>{
+        const RING_DATA=[
+        {
+        label:"Ring 1 · Grooming Task",
+        center:{title:"Grooming",sub:"bADL"},
+        phases:{
+        eval: {title:"Problem Analysis", body:[
+        "Generalised weakness from CIM — poor truncal control, reduced UL and LL strength (Kalamgi &amp; Larsson, 2016; Kaur &amp; Hong, 2024)",
+        "Unable to tolerate functional seated or standing position for grooming task performance (Hiser et al., 2025)",
+        "Reduced activity tolerance limiting sustained participation in self-care (Hiser et al., 2025)",
+        "Reduced motivation and sense of self — wanted to be independent but was dependent on others for basic personal care (Latronico et al., 2023)"
+        ], tags:[]},
+        goals:{title:"Goals", body:[
+        "STG1: To complete toothbrushing in sitting with minimal assistance by bedside in 2 weeks",
+        "STG2: To complete toothbrushing, shaving and facewashing in sitting with minimal assistance in 3 weeks",
+        "LTG1: To complete toothbrushing, shaving and facewashing in standing with minimal assistance in 1 month",
+        "LTG2: To be independent with toothbrushing, shaving and facewashing by the sink in standing in 2 months"
+        ], tags:[]},
+        int:  {title:"Intervention", carousel:[
+        {label:"Restorative", points:[
+            "Truncal control and strengthening — unsupported sitting practice and functional reaching in sitting (Hiser et al., 2025; Morris et al., 2023)",
+            "Seated tolerance via activity engagement — sitting out for ADLs and meals to build endurance (Latronico et al., 2023)",
+            "Upper limb strengthening for reaching and sustained effort during grooming tasks (Hiser et al., 2025)",
+            "Static standing balance training to allow bimanual grooming tasks at the sink (Morris et al., 2023)"
+        ]},
+        {label:"Compensatory", points:[
+            "Completing grooming tasks in gerichair with OT setup and assistance to facilitate early task participation",
+            "Rollator frame to support standing task performance at the sink"
+        ]},
+        {label:"Educational", points:[
+            "Education on the course and nature of critical illness rehabilitation, and importance of early mobilisation (Needham et al., 2010; Kaur &amp; Hong, 2024)"
+        ]}
+        ], tags:[]},
+        reval:{title:"Re-evaluation", body:[
+        "STG1: Toothbrushing in sitting with minimal assistance by bedside in 2 weeks (+1)",
+        "STG2: Toothbrushing, shaving and facewashing in sitting with minimal assistance in 3 weeks (+1)",
+        "LTG1: Toothbrushing, shaving and facewashing in standing with minimal assistance in 1 month (+1)",
+        "LTG2: Independent with toothbrushing, shaving and facewashing by the sink in standing in 2 months (+2)"
+        ], tags:[]}},
+        nodes:[
+        {key:"eval", label:"Problem<br>Analysis", left:"35%",top:"0%",   delay:400, icon:'<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/>'},
+        {key:"goals",label:"Goals",              left:"75%",top:"30%", delay:520, icon:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'},
+        {key:"int",  label:"Intervene",          left:"37%",top:"73%", delay:640, icon:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'},
+        {key:"reval",label:"Re-evaluate",        left:"-5%",top:"35%", delay:760, icon:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>'}
+        ]},
+        {
+        label:"Ring 2 · Mobility & Transfers",
+        center:{title:"Transfers",sub:"bADL"},
+        phases:{
+        eval: {title:"Problem Analysis", body:[
+        "Fully dependent, maximal assist pivot transfers on initial assessment",
+        "Persistent lower limb weakness (3/5 MMT) limiting sit-to-stand and transfer ability (Kalamgi &amp; Larsson, 2016; Kaur &amp; Hong, 2024)",
+        "Cardiovascular deconditioning - reflex tachycardia and postural BP initially in standing.",
+        "Reduced activity tolerance limiting rehabilitation engagement frequency (Brill et al., 2024/2025)"
+        ], tags:[]},
+        goals:{title:"Goals", body:[
+        "STG1: Sit to stand to frame with maximal assistance in 3 weeks",
+        "STG2: Moderate assistance pivot transfers bed <> gerichair in 3 weeks",
+        "LTG1: Mobilise within the bay with moderate assistance and appropriate aid in 2 months",
+        "LTG2: Mobilize independently with appropriate aid in 3 months"
+        ], tags:[]},
+        int:  {title:"Intervention", carousel:[
+        {label:"Restorative", points:[
+            "Truncal control and sitting balance as a basis for transfers and sit to stand.",
+            "Transfers practice for LL loading and progressive strengthening. PT completeed tilt-table for further LL loading(Latronico et al., 2023)",
+            "Standing tolerance and balance for cardiovascular reconditioning",
+        ]},
+        {label:"Acquisitional", points:[
+            "Task-specific practice: bed mobility, sit-to-stand, bed ↔ gerichair transfers (Mayer &amp; Engle, 2022)",
+            "Motor relearning for functional recovery and transfer safety (Brill et al., 2024/2025; Hiser et al., 2025)"
+        ]},
+        {label:"Compensatory", points:[
+            "Rollator frame as mobility aid to reduce load and enable safe task performance"
+        ]}
+        ], tags:[]},
+        reval:{title:"Re-evaluation", body:[
+        "STG1: Sit to stand to frame with maximal assistance in 3 weeks (-2)",
+        "STG2: Moderate assistance pivot transfers bed <> gerichair in 3 weeks (+1)",
+        "LTG1: Mobilise within the bay with moderate assistance and appropriate aid in 2 month (+2)",
+        "LTG2: Mobilize independently with appropriate aid in 3 months (+2)"
+        ], tags:[]}},
+        nodes:[
+        {key:"eval", label:"Problem<br>Analysis", left:"35%",top:"0%",   delay:400, icon:'<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/>'},
+        {key:"goals",label:"Goals",              left:"75%",top:"30%", delay:520, icon:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'},
+        {key:"int",  label:"Intervene",          left:"37%",top:"73%", delay:640, icon:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'},
+        {key:"reval",label:"Re-evaluate",        left:"-5%",top:"35%", delay:760, icon:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>'}
+        ]},
+        {
+        label:"Ring 3 · Outdoor Mobility & Leisure",
+        center:{title:"Leisure",sub:"Occupation"},
+        phases:{
+        eval: {title:"Problem Analysis", body:[
+        "Residual LL weakness (4/5 MMT) and dynamic balance deficits limiting sustained community ambulation on uneven terrain (Morris et al., 2023)",
+        "Need for rollator frame for balance reduces ability to complete bimanual tasks. Considering demands of hobbies - need to hold flashlight and walk, camera to take photos - need to be able to balance with single sided aid.",
+        "Reduced endurance for prolonged outdoor walking and leisure participation"
+        ], tags:[]},
+        goals:{title:"Goals", body:[
+        "STG1: To walk in the park at Block 4 with supervision from wife and appropriate aid in 3 weeks (wheelchair for transit)",
+        "STG2: To complete standing bimanual tasks with minimal assistance and appropriate aid in 3 weeks",
+        "LTG1: To walk in nature for 30 minutes with rollator frame and supervision in 2 months",
+        "LTG2: To independently walk in nature with single-sided aid in 5 months"
+        ], tags:[]},
+        int:  {title:"Intervention", carousel:[
+        {label:"Restorative", points:[
+            "Progressive dynamic standing balance — functional reaching outside base of support (Morris et al., 2023)",
+            "Bimanual tasks in standing and stepping on varied surfaces (Morris et al., 2023; Latronico et al., 2023)"
+        ]},
+        {label:"Acquisitional", points:[
+            "Task-specific community mobility practice incorporating leisure: simulated bird photography on the ward — mobilising with aid whilst locating objects, stabilising with frame when bending or reaching during task performance",
+        ]},
+        {label:"Educational", points:[
+            "Caregiver training for wife on supervised community mobility and outdoor safety (Hiser et al., 2025)",
+            "Energy conservation and pacing strategies for sustained outdoor activity (Needham et al., 2010)"
+        ]}
+        ], tags:[]},
+        reval:{title:"Re-evaluation", body:[
+        "STG1: Walk in the park at Block 4 with supervision and appropriate aid — managed with wife (-1)",
+        "STG2: Standing bimanual tasks with minimal assistance and appropriate aid (-1)",
+        "LTG1: Walk in nature for 30 minutes with rollator frame and supervision — ongoing",
+        "LTG2: Independent walking in nature with single-sided aid — ongoing"
+        ], tags:[]}},
+        nodes:[
+        {key:"eval", label:"Problem<br>Analysis", left:"35%",top:"0%",   delay:400, icon:'<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/>'},
+        {key:"goals",label:"Goals",              left:"75%",top:"30%", delay:520, icon:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'},
+        {key:"int",  label:"Intervene",          left:"37%",top:"73%", delay:640, icon:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'},
+        {key:"reval",label:"Re-evaluate",        left:"-5%",top:"35%", delay:760, icon:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>'}
+        ]}
+        ];
+
+        /* Inject node buttons and labels into each ring-unit, then wire up interactions */
+        RING_DATA.forEach((rd,idx)=>{
+        const unit=document.getElementById("ring-unit-"+idx);
+        if(!unit)return;
+
+        /* Label */
+        unit.querySelector("[data-ring-label]").textContent=rd.label;
+
+        /* Center text */
+        unit.querySelector("[data-ring-center-title]").textContent=rd.center.title;
+        unit.querySelector("[data-ring-center-sub]").textContent=rd.center.sub;
+
+        /* Inject rnode buttons */
+        const wrap=unit.querySelector(".ring-wrap");
+        rd.nodes.forEach(n=>{
+        const btn=document.createElement("div");
+        btn.className="rnode rv-up";
+        btn.dataset.phase=n.key;
+        btn.style.cssText=`--d:${n.delay}ms;left:${n.left};top:${n.top}`;
+        btn.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">${n.icon}</svg><span class="rnl">${n.label}</span>`;
+        wrap.appendChild(btn);
+        });
+
+        /* Wire up click interactions scoped to this unit */
+        const card=unit.querySelector("[data-ring-card]");
+        const phEl=unit.querySelector("[data-ring-ph]");
+        const cntEl=unit.querySelector("[data-ring-cnt]");
+        const titleEl=unit.querySelector("[data-rc-title]");
+        const bodyEl=unit.querySelector("[data-rc-body]");
+        const rnodes=unit.querySelectorAll(".rnode");
+
+        let carousel=null, carouselIdx=0;
+        function renderCarousel(){
+        const slide=carousel[carouselIdx];
+        bodyEl.innerHTML=`<div class="rc-carousel-header"><span class="rc-carousel-label">${slide.label}</span><span class="rc-carousel-counter">${carouselIdx+1} / ${carousel.length}</span></div><ul class="rc-carousel-list">${slide.points.map(p=>`<li>${p}</li>`).join("")}</ul><div class="rc-carousel-nav"><button class="rc-prev" aria-label="Previous">&#8592;</button><button class="rc-next" aria-label="Next">&#8594;</button></div>`;
+        bodyEl.className="rc-body";
+        }
+        unit.addEventListener("click",e=>{
+        if(carousel){
+        if(e.target.closest(".rc-prev")){carouselIdx=(carouselIdx-1+carousel.length)%carousel.length;renderCarousel();return;}
+        if(e.target.closest(".rc-next")){carouselIdx=(carouselIdx+1)%carousel.length;renderCarousel();return;}
+        }
+        const btn=e.target.closest(".rnode");
+        if(!btn)return;
+        const k=btn.dataset.phase;
+        const d=rd.phases[k];
+        if(!d)return;
+        rnodes.forEach(n=>n.classList.toggle("active",n.dataset.phase===k));
+        titleEl.textContent=d.title;
+        if(d.carousel){
+        carousel=d.carousel; carouselIdx=0; renderCarousel();
+        } else if(Array.isArray(d.body)){
+        carousel=null;
+        bodyEl.innerHTML=d.body.map(item=>
+        `<div class="ditem">${typeof item === 'object' ? item.text : item}</div>`
+        ).join("");
+        bodyEl.className="rc-body dlist";
+        } else {
+        carousel=null;
+        bodyEl.textContent=d.body;
+        bodyEl.className="rc-body";
+        }
+        phEl.style.display="none";
+        cntEl.style.display="flex";
+        card.classList.add("open");
+        });
+
+        /* Close button */
+        unit.querySelector("[data-ring-close]").addEventListener("click",()=>{
+        rnodes.forEach(n=>n.classList.remove("active"));
+        card.classList.remove("open");
+        cntEl.style.display="none";
+        phEl.style.display="";
+        });
+
+        /* Animate arc on intersection */
+        const arcAnim=unit.querySelector(".ring-arc-anim");
+        let done=false;
+        const obs=new IntersectionObserver(es=>{
+        if(es[0].isIntersecting&&!done){
+        done=true;
+        if(!RM){setTimeout(()=>{arcAnim.style.strokeDashoffset="0";},200+idx*180);}
+        else{arcAnim.style.strokeDashoffset="0";}
+        }
+        },{threshold:0.2});
+        obs.observe(unit);
+        });
+
+        /* Re-run reveal observer on the newly injected rnodes */
+        document.querySelectorAll(".ring-unit .rnode.rv-up").forEach(el=>{
+        const obs=new IntersectionObserver(es=>{
+        if(es[0].isIntersecting){
+        const d=RM?0:(parseInt(getComputedStyle(el).getPropertyValue("--d"))||0);
+        setTimeout(()=>el.classList.add("shown"),d);
+        obs.unobserve(el);
+        }
+        },{threshold:0.1});
+        obs.observe(el);
+        });
+        })();
+
+
+        /* s-model: gallery navigation */
+        (()=>{
+        const track=document.getElementById("gallery-track");
+        const prevBtn=document.getElementById("gallery-prev");
+        const nextBtn=document.getElementById("gallery-next");
+        const dots=document.querySelectorAll(".gallery-dot");
+        if(!track||!prevBtn||!nextBtn)return;
+        let cur=0;const total=4;
+        function goToSlide(i){
+            cur=Math.max(0,Math.min(total-1,i));
+            track.style.transform=`translateX(-${cur*100}%)`;
+            dots.forEach((d,j)=>d.classList.toggle("active",j===cur));
+            prevBtn.disabled=cur===0;
+            nextBtn.disabled=cur===total-1;
+        }
+        prevBtn.addEventListener("click",()=>goToSlide(cur-1));
+        nextBtn.addEventListener("click",()=>goToSlide(cur+1));
+        dots.forEach((d,i)=>d.addEventListener("click",()=>goToSlide(i)));
+        goToSlide(0);
+        })();
+
+        /* Horizontal timeline */
+        (()=>{
+        const points=document.querySelectorAll('.htl-point');
+        const card=document.getElementById('htl-card');
+        const cardDate=document.getElementById('htl-card-date');
+        const cardTitle=document.getElementById('htl-card-title');
+        const cardBody=document.getElementById('htl-card-body');
+        if(!points.length||!card)return;
+        const ICONS={
+            'activity':'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+            'alert-triangle':'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+            'alert-circle':'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+            'droplet':'<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>',
+            'map-pin':'<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+            'plus-circle':'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>',
+            'zap':'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+            'scissors':'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/>',
+            'clipboard':'<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>',
+            'trending-up':'<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',
+            'heart':'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+            'user':'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+            'users':'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
+        };
+        function renderBody(raw){
+            return raw.split('||').map(e=>{
+                const sep=e.indexOf('|');
+                const ic=e.slice(0,sep).trim();
+                const txt=e.slice(sep+1).trim();
+                const p=ICONS[ic]||'';
+                return`<div class="htl-row"><span class="htl-row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${p}</svg></span><span class="htl-row-text">${txt}</span></div>`;
+            }).join('');
+        }
+        let activeIdx=-1;
+        points.forEach((pt,i)=>{
+            pt.addEventListener('click',()=>{
+                if(activeIdx===i){
+                    pt.classList.remove('active');
+                    card.classList.remove('open','setback');
+                    activeIdx=-1;
+                    return;
+                }
+                points.forEach(p=>p.classList.remove('active'));
+                pt.classList.add('active');
+                activeIdx=i;
+                const isSetback=pt.classList.contains('setback');
+                cardDate.textContent=pt.dataset.date||'';
+                cardTitle.textContent=pt.dataset.title||'';
+                cardBody.innerHTML=renderBody(pt.dataset.body||'');
+                card.classList.remove('open','setback');
+                card.classList.toggle('setback',isSetback);
+                requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.add('open')));
+            });
+        });
+        })();
+
+        /* OUTCOMES */
+        let outDone=false;
+        function initOut(){
+        if(outDone)return;outDone=true;
+        setTimeout(()=>{const b1=document.getElementById("bar1");if(b1)b1.style.width="49%";},400);
+        setTimeout(()=>{const b2=document.getElementById("bar2");if(b2)b2.style.width="75%";},600);
+        setTimeout(()=>{const b3=document.getElementById("bar3");if(b3)b3.style.width="89%";},800);
+        }
+        const outObs=new IntersectionObserver(es=>{if(es[0].isIntersecting)initOut();},{threshold:0.2});
+        const outEl=document.getElementById("s-out");
+        if(outEl)outObs.observe(outEl);
+    </script>
+</body>
+</html>

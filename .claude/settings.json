@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"\\\\.rc-body\\\\|\\\\.rc-title\\\\|\\\\.dlist\\\\|\\\\.ditem\" \"\\\\\\\\wsl.localhost\\\\Ubuntu\\\\root\\\\code\\\\casestudy final\\\\OPENTHIS.html\")"
+    ]
+  }
+}
