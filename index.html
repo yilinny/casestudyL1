@@ -689,6 +689,26 @@
             border: 1px solid rgba(122,92,56,0.2);
         }
 
+        .gas-pair {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+
+        .gas-arrow {
+            font-size: 11px;
+            color: var(--muted);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .gas-pre {
+            background: rgba(100,100,100,0.08);
+            color: #888;
+            border: 1px solid rgba(100,100,100,0.2);
+        }
+
         /* ── OTIPM MODEL SECTION ──────────────────────────────────────────── */
         #s-model {
             display: flex;
@@ -2437,20 +2457,20 @@
                                 <span class="prob-card-title">Ring 1 · Grooming Task</span>
                             </div>
                             <div class="prob-section-label">Short-term Goals</div>
-                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing</strong> in sitting with <strong>minimal assistance</strong> by bedside in 2 weeks</div><div class="gas-badge gas-pos1">+1</div></div>
-                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing, shaving &amp; facewashing</strong> in sitting with <strong>minimal assistance</strong> in 3 weeks</div><div class="gas-badge gas-pos1">+1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing</strong> in sitting with <strong>minimal assistance</strong> by bedside in 2 weeks</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-pos1">+1</span></div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing, shaving &amp; facewashing</strong> in sitting with <strong>minimal assistance</strong> in 3 weeks</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-pos1">+1</span></div></div>
                             <div class="prob-section-label" style="margin-top:8px;">Long-term Goals</div>
-                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing, shaving &amp; facewashing</strong> in <strong>standing</strong> with minimal assistance in 1 month</div><div class="gas-badge gas-pos1">+1</div></div>
-                            <div class="goal-row"><div class="goal-text"><strong>Independent</strong> toothbrushing, shaving &amp; facewashing <strong>by sink in standing</strong> in 2 months</div><div class="gas-badge gas-pos2">+2</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Toothbrushing, shaving &amp; facewashing</strong> in <strong>standing</strong> with minimal assistance in 1 month</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-pos1">+1</span></div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Independent</strong> toothbrushing, shaving &amp; facewashing <strong>by sink in standing</strong> in 2 months</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-pos2">+2</span></div></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: Mobility & Transfers -->
+                <!-- Card 2: Transfers & Lower Body Dressing -->
                 <div class="prob-flip rv-up" style="--d:80ms">
                     <div class="prob-flip-inner">
                         <div class="prob-flip-front" onclick="this.closest('.prob-flip-inner').classList.add('flipped')">
-                            <img src="card2.svg" alt="Mobility & Transfers" onerror="this.parentNode.innerHTML='<div class=prob-flip-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg>card2.svg</div>'" />
+                            <img src="card2.svg" alt="Transfers & Lower Body Dressing" onerror="this.parentNode.innerHTML='<div class=prob-flip-front-placeholder><svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'m21 15-5-5L5 21\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/></svg>card2.svg</div>'" />
                             <div class="prob-flip-hint">Click to explore →</div>
                         </div>
                         <div class="prob-flip-back prob-card" style="border-left:4px solid var(--primary);">
@@ -2459,14 +2479,14 @@
                                 <span class="prob-card-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/><path d="M7 21l2-8 3 3 2-4 2 6"/><path d="M11 13l-2-5 5 1"/></svg>
                                 </span>
-                                <span class="prob-card-title">Ring 2 · Mobility &amp; Transfers</span>
+                                <span class="prob-card-title">Ring 2 · Transfers &amp; Lower Body Dressing</span>
                             </div>
                             <div class="prob-section-label">Short-term Goals</div>
-                            <div class="goal-row"><div class="goal-text"><strong>Sit to stand</strong> to frame with <strong>maximal assistance</strong> in 3 weeks</div><div class="gas-badge gas-neg2">−2</div></div>
-                            <div class="goal-row"><div class="goal-text"><strong>Moderate assistance pivot transfer</strong> bed ↔ chair and in 3 weeks</div><div class="gas-badge gas-neg2">+1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Sit to stand</strong> to a frame with <strong>maximal assistance</strong> in 3 weeks</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-neg2">−2</span></div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Supported standing</strong> without bilateral upper limb support in 3 weeks</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-pos1">+1</span></div></div>
                             <div class="prob-section-label" style="margin-top:8px;">Long-term Goals</div>
-                            <div class="goal-row"><div class="goal-text"><strong>Mobilise within the bay</strong> with moderate assistance and appropriate aid in 2 months</div><div class="gas-badge gas-pos1">+1</div></div>
-                            <div class="goal-row"><div class="goal-text"><strong>Mobilize independently</strong> with appropriate aid in 3 months</div><div class="gas-badge gas-pos1">+1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Sit to stand</strong> to a frame with <strong>minimal assistance</strong> in 1 month</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-pos1">+1</span></div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Lower body dressing</strong> with minimal assistance for sit to stand and standing balance in 6 weeks</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-pos2">+2</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -2487,8 +2507,8 @@
                                 <span class="prob-card-title">Ring 3 · Outdoor Mobility &amp; Leisure</span>
                             </div>
                             <div class="prob-section-label">Short-term Goals</div>
-                            <div class="goal-row"><div class="goal-text"><strong>Walk in park at Block 4</strong> with wife's supervision and appropriate aid in 3 weeks (wheelchair for transit)</div><div class="gas-badge gas-neg2">−1</div></div>
-                            <div class="goal-row"><div class="goal-text"><strong>Standing bimanual tasks</strong> with minimal assistance and appropriate aid in 3 weeks</div><div class="gas-badge gas-neg2">−1</div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Walk in park at Block 4</strong> with wife's supervision and appropriate aid in 3 weeks (wheelchair for transit)</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-neg2">−1</span></div></div>
+                            <div class="goal-row"><div class="goal-text"><strong>Standing bimanual tasks</strong> with minimal assistance and appropriate aid in 3 weeks</div><div class="gas-pair"><span class="gas-badge gas-pre">−2</span><span class="gas-arrow">→</span><span class="gas-badge gas-neg2">−1</span></div></div>
                             <div class="prob-section-label" style="margin-top:8px;">Long-term Goals</div>
                             <div class="goal-row"><div class="goal-text"><strong>Walk in nature for 30 min</strong> with rollator frame and supervision in 2 months</div><div class="gas-badge gas-prog">Ongoing</div></div>
                             <div class="goal-row"><div class="goal-text"><strong>Independent nature walks</strong> with single-sided aid in 5 months</div><div class="gas-badge gas-prog">Ongoing</div></div>
@@ -2837,10 +2857,10 @@
         ]}
         ], tags:[]},
         reval:{title:"Re-evaluation", body:[
-        "STG1: Toothbrushing in sitting with minimal assistance by bedside in 2 weeks (+1)",
-        "STG2: Toothbrushing, shaving and facewashing in sitting with minimal assistance in 3 weeks (+1)",
-        "LTG1: Toothbrushing, shaving and facewashing in standing with minimal assistance in 1 month (+1)",
-        "LTG2: Independent with toothbrushing, shaving and facewashing by the sink in standing in 2 months (+2)"
+        "STG1: Toothbrushing in sitting with minimal assistance by bedside in 2 weeks (Pre: −2 → Post: +1)",
+        "STG2: Toothbrushing, shaving and facewashing in sitting with minimal assistance in 3 weeks (Pre: −2 → Post: +1)",
+        "LTG1: Toothbrushing, shaving and facewashing in standing with minimal assistance in 1 month (Pre: −2 → Post: +1)",
+        "LTG2: Independent with toothbrushing, shaving and facewashing by the sink in standing in 2 months (Pre: −2 → Post: +2)"
         ], tags:[]}},
         nodes:[
         {key:"eval", label:"Problem<br>Analysis", left:"35%",top:"0%",   delay:400, icon:'<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/>'},
@@ -2849,8 +2869,8 @@
         {key:"reval",label:"Re-evaluate",        left:"-5%",top:"35%", delay:760, icon:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>'}
         ]},
         {
-        label:"Ring 2 · Mobility & Transfers",
-        center:{title:"Transfers",sub:"bADL"},
+        label:"Ring 2 · Transfers & Lower Body Dressing",
+        center:{title:"Transfers & LBD",sub:"bADL / pADL"},
         phases:{
         eval: {title:"Problem Analysis", body:[
         "Fully dependent, maximal assist pivot transfers on initial assessment",
@@ -2859,10 +2879,10 @@
         "Reduced activity tolerance limiting rehabilitation engagement frequency (Brill et al., 2024/2025)"
         ], tags:[]},
         goals:{title:"Goals", body:[
-        "STG1: Sit to stand to frame with maximal assistance in 3 weeks",
-        "STG2: Moderate assistance pivot transfers bed <> gerichair in 3 weeks",
-        "LTG1: Mobilise within the bay with moderate assistance and appropriate aid in 2 months",
-        "LTG2: Mobilize independently with appropriate aid in 3 months"
+        "STG1: To be able to sit to stand to a frame with maximal assistance in 3 weeks",
+        "STG2: To be able to manage supported standing without bilateral upper limb support in 3 weeks",
+        "LTG1: To be able to complete sit to stand to a frame with minimal assistance in 1 month",
+        "LTG2: To be able to manage lower body dressing with minimal assistance for sit to stand and standing balance in 6 weeks"
         ], tags:[]},
         int:  {title:"Intervention", carousel:[
         {label:"Restorative", points:[
@@ -2879,10 +2899,10 @@
         ]}
         ], tags:[]},
         reval:{title:"Re-evaluation", body:[
-        "STG1: Sit to stand to frame with maximal assistance in 3 weeks (-2)",
-        "STG2: Moderate assistance pivot transfers bed <> gerichair in 3 weeks (+1)",
-        "LTG1: Mobilise within the bay with moderate assistance and appropriate aid in 2 month (+2)",
-        "LTG2: Mobilize independently with appropriate aid in 3 months (+2)"
+        "STG1: Sit to stand to a frame with maximal assistance in 3 weeks (Pre: −2 → Post: −2)",
+        "STG2: Supported standing without bilateral upper limb support in 3 weeks (Pre: −2 → Post: +1)",
+        "LTG1: Sit to stand to a frame with minimal assistance in 1 month (Pre: −2 → Post: +1)",
+        "LTG2: Lower body dressing with minimal assistance for sit to stand and standing balance in 6 weeks (Pre: −2 → Post: +2)"
         ], tags:[]}},
         nodes:[
         {key:"eval", label:"Problem<br>Analysis", left:"35%",top:"0%",   delay:400, icon:'<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/>'},
@@ -2919,8 +2939,8 @@
         ]}
         ], tags:[]},
         reval:{title:"Re-evaluation", body:[
-        "STG1: Walk in the park at Block 4 with supervision and appropriate aid — managed with wife (-1)",
-        "STG2: Standing bimanual tasks with minimal assistance and appropriate aid (-1)",
+        "STG1: Walk in the park at Block 4 with supervision and appropriate aid — managed with wife (Pre: −2 → Post: −1)",
+        "STG2: Standing bimanual tasks with minimal assistance and appropriate aid (Pre: −2 → Post: −1)",
         "LTG1: Walk in nature for 30 minutes with rollator frame and supervision — ongoing",
         "LTG2: Independent walking in nature with single-sided aid — ongoing"
         ], tags:[]}},
